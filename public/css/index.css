@@ -1,0 +1,58 @@
+*.megg{
+    background-image: url("https://images.unsplash.com/32/Mc8kW4x9Q3aRR3RkP5Im_IMG_4417.jpg?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80");
+    background-size: cover;
+    background-position: center;
+;
+  }
+h1.container.text-center.my-3.fw-bold.text-success{
+    font-family: 'Comic Sans MS';
+    font-size: 18px; 
+  }
+  .button-container {
+    font-family: 'Comic Sans MS';
+}
+
+.button-flex-container {
+display: flex;
+gap: 10px; 
+}
+.reduce-margin {
+margin: 0; /* Set margin to 0 to remove vertical spacing */
+}
+.exp {
+background-color: #f8c0c0; 
+padding: 5px 20px;
+border-radius: 20px; 
+display: inline-block; 
+font-family: 'Comic Sans MS';
+box-shadow: inset -5px -5px rgba(0,0, 0, 0.5);
+}
+.expt {
+background-color: #b2c9f2; 
+padding: 5px 20px;
+border-radius: 20px; 
+display: inline-block; 
+font-family: 'Comic Sans MS';
+box-shadow: inset -5px -5px rgba(0,0, 0, 0.5);
+
+
+}
+.expp {
+font-family: 'Comic Sans MS';
+}
+.custom-bg-color {
+  display:flex;
+  flex-direction:column;
+  background-color: rgba(0,0,0,0.5);
+  box-shadow: inset -5px -5px rgba(0,0, 0, 0.5);
+  border-radius: 25px;
+}
+.inputt{
+  border-radius: 25px; 
+  box-shadow: inset -5px -5px rgba(0,0, 0, 0.5);
+}
+.box-with-text{
+  
+  border-radius: 25px; 
+  box-shadow: inset -5px -5px rgba(0,0, 0, 0.5);
+}

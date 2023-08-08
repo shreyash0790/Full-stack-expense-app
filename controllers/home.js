@@ -1,4 +1,4 @@
-const Expense = require('../models/login');
+const Expense = require('../models/home');
 
  
 exports.getExpense=async (req, res, next) => {
