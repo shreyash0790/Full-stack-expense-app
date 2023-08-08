@@ -7,7 +7,7 @@
   <title>MY Expense App </title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/public/css/index.css">
+  <link rel="stylesheet" href="/public/css/index.css">
 </head>
 
 <body class="text-center megg">
@@ -33,28 +33,33 @@
         <div class="col-md-5 col-lg-4 col-xl-4">
           <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="img-fluid"
             alt="Sample image"><br><br><br>
-            <div class="text-center list-container ">
-              <h3 class="list-title fw-bold text-primary expt " style="font-size :20px;">Expense List</h3>
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th style="color: white; font-size: large;">Amount</th>
-                    <th style="color: white; font-size: large;">Description</th>
-                    <th style="color: white; font-size: large;">Category</th>
-                  </tr>
-                </thead>
-              </table>
-  
-              </ul>
+          <div class="text-center list-container ">
+            <div class="card  text-white" style="border-radius: 2rem; ">
+              <div class="card-body p-3 text-center">
+
+                <div class="mb-md-5 mt-md-4 pb-5">
+                  <h3 class="list-title fw-bold text-primary expt " style="font-size :20px;">Expense List</h3>
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th style="color: white; font-size: large; background-color: black;">Amount</th>
+                        <th style="color: white; font-size: large; background-color: black;">Description</th>
+                        <th style="color: white; font-size: large; background-color: black;">Category</th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-        
+
         <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
           <form id="my-form" class="custom-bg-color shadow p-4">
             <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
               <div class="button-container">
                 <h1 class="container text-center my-3  text-white" style="font-size: 25px;">Enter Expense Details</h1>
-            </div>
+              </div>
 
             </div><br>
 
@@ -67,7 +72,7 @@
 
             <!-- text -->
             <div class="form-outline mb-0">
-              <input type="text" id="dis" class="form-control form-control-lg inputt"  placeholder="Enter Description" />
+              <input type="text" id="dis" class="form-control form-control-lg inputt" placeholder="Enter Description" />
               <label class="form-label" for="dis"></label>
             </div>
             <!-- category -->
@@ -89,23 +94,24 @@
 
 
             <div class="text-center text-lg-start mt-2 pt-2">
-              
+
               <button type="submit" class="btn btn-success btn-lg  expp "
-                style="padding-left: 1 rem; padding-right: 1 rem ;color: #f5fdf8; font-weight: bold; font-size: 16px;">Add Expense</button>
+                style="padding-left: 1 rem; padding-right: 1 rem ;color: #f5fdf8; font-weight: bold; font-size: 16px;">Add
+                Expense</button>
             </div>
 
 
           </form><br>
-      
+
           <div class="list-container ">
             <h3 class="list-title fw-bold text-danger exp " style="font-size :20px;"> Total Expenses</h3>
             <div class="box-with-text">
               <h1 class="container text-center my-3  text-white" style="font-size: 40px;"> 500 </h1>
             </div>
           </div>
-          </div>
         </div>
       </div>
+    </div>
     </div>
 
     </div>
