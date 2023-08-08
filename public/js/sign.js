@@ -11,15 +11,15 @@ function onSubmit(e) {
     const Name = NameInput.value;
     const Email = EmailInput.value;
     const Password = PasswordInput.value;
-    if (NameInput.value === '' || EmailInput === '' || PasswordInput=== '') {
+    if (Name === '' || Email === '' || Password=== '') {
         alert("input all fields");
-    } else {
+    }
+    else {
         const formData = { Name: Name, Email: Email, Password: Password, };
         postFormData(formData);
     }
-}
-
-async function postFormData(formData) {
+  }
+  async function postFormData(formData) {
     try {
         console.log(formData);
         const response = await axios.post('http://localhost:5000/SignUp', formData);
@@ -36,5 +36,3 @@ function clearFields() {
     EmailInput.value = '';
     PasswordInput.value ='';
 }
-
-
