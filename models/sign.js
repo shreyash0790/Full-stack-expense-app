@@ -14,11 +14,13 @@ Name:{
  },
  Email:{
   type: Sequelize.STRING,
-  allowNull:false
+  allowNull:false,
+  unique: true
  },
 Password:{
   type: Sequelize.STRING,
   allowNull:false
+
  },
 })
 module.exports=User;

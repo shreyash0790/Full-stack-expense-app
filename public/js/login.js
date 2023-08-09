@@ -26,7 +26,8 @@ async function getFormData(formData) {
 
         if (response.status === 200) {
             clearErrorMessages();
-            displayErrorMessage('Login success !');
+            alert('Login successfull')
+            window.location.href = 'index.html';
             
         }
     } catch (err) {
@@ -61,3 +62,10 @@ function displayErrorMessage(message) {
     h3.textContent = message;
     userEx.appendChild(h3);
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Attach the click event handler after the DOM is fully loaded
+    document.getElementById('SignUpButton').addEventListener('click', function() {
+        window.location.href = 'sign.html';
+    });
+});

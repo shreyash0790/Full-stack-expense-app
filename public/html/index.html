@@ -21,8 +21,8 @@
           </li>
         </ul>
         <div class="button-flex-container">
-          <button class="btn btn-outline-success" type="submit">Login</button>
-          <button class="btn btn-outline-success" type="submit">Sign Up</button>
+          <button class="btn btn-outline-success" type="submit" onclick="window.location.href='login.html'">Login</button>
+          <button class="btn btn-outline-success" type="submit" onclick="window.location.href='sign.html'">Sign Up</button>
         </div>
       </div>
     </div>
@@ -39,12 +39,14 @@
 
                 <div class="mb-md-5 mt-md-4 pb-5">
                   <h3 class="list-title fw-bold text-primary expt " style="font-size :20px;">Expense List</h3>
-                  <table class="table table-bordered">
+                  <table class="table table-bordered styled-table">
                     <thead>
                       <tr>
-                        <th style="color: white; font-size: large; background-color: black;">Amount</th>
-                        <th style="color: white; font-size: large; background-color: black;">Description</th>
-                        <th style="color: white; font-size: large; background-color: black;">Category</th>
+                        <th style="color: white; font-size: medium; background-color: black;">Amount</th>
+                        <th style="color: white; font-size: medium; background-color: black;">Description</th>
+                        <th style="color: white; font-size: medium; background-color: black;">Category</th>
+                        <th style="color: white; font-size: medium; background-color: black;">Edit/Delete/Update</th>
+
                       </tr>
                     </thead>
                   </table>
@@ -105,8 +107,8 @@
 
           <div class="list-container ">
             <h3 class="list-title fw-bold text-danger exp " style="font-size :20px;"> Total Expenses</h3>
-            <div class="box-with-text">
-              <h1 class="container text-center my-3  text-white" style="font-size: 40px;"> 500 </h1>
+            <div class="box-with-text" id="exp">
+              <h1 class="container text-center my-3  text-white" style="font-size: 40px;"> </h1>
             </div>
           </div>
         </div>

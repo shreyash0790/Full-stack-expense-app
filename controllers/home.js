@@ -66,14 +66,6 @@ exports.editExp = async (req, res, next) => {
     // Save the updated expense to the database
     await expense.save();
 
-    // Respond with the updated user data (optional)
-    const updatedUser = {
-      id: userId,
-      Amount: updatedAmount,
-      Description: updatedDescription,
-      Category: updatedCategory
-    };
-    res.status(200).json({ updatedUser });
 
   } catch (err) {
     console.error('Error updating expense:', err);

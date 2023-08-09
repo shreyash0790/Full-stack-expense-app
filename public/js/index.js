@@ -2,8 +2,8 @@ const myForm = document.querySelector('#my-form');
 const amountInput = document.querySelector('#amount');
 const disInput = document.querySelector('#dis');
 const catInput = document.querySelector('#cat');
-const userList = document.querySelector('#users');
 const Totalexp = document.querySelector('#exp');
+const table = document.querySelector('.table-bordered');
 
 // Listen for form submit
 myForm.addEventListener('submit', onSubmit);
@@ -27,65 +27,42 @@ async function postFormData(formData) {
         const response = await axios.post('http://localhost:5000/AddExpense', formData);
         const user = response.data.Expense
         createListItem(user); // Create and append list item
-        
+
         clearFields(); // Clear input fields
     } catch (err) {
         console.log(err);
     }
 }
 
-
 function createListItem(user) {
-    const li = document.createElement('li');
-    li.className = 'list-group-item';
-    li.appendChild(document.createTextNode(`${user.Category} => ${user.Description} || ${user.Amount}`));
+    const tr = document.createElement('tr');
 
-    // Create delete button
-    const deleteBtn = document.createElement('button');
-    deleteBtn.className = 'btn btn-danger btn-sm float-end';
-    deleteBtn.appendChild(document.createTextNode('Delete'));
+    // Create cells for each column
+    const amountCell = document.createElement('td');
+    amountCell.textContent = user.Amount;
+    amountCell.style.color = 'white'; // Example color
+    amountCell.style.fontSize = '20px'; // Example font size
 
-    // Create update button
-    const UpdateBtn = document.createElement('button');
-    UpdateBtn.className = ' btn btn-primary btn-sm float-end';
-    UpdateBtn.appendChild(document.createTextNode('Update'));
+    const descriptionCell = document.createElement('td');
+    descriptionCell.textContent = user.Description;
+    descriptionCell.style.color = 'white'; // Example color
+    descriptionCell.style.fontSize = '20px'; // Example font size
 
-    // Create edit button
+    const categoryCell = document.createElement('td');
+    categoryCell.textContent = user.Category;
+    categoryCell.style.color = 'white'; // Example color
+    categoryCell.style.fontSize = '20px'; // Example font size
+
+    const actionCell = document.createElement('td');
+
+    // Create buttons for edit and delete actions
     const editBtn = document.createElement('button');
-    editBtn.className = 'btn btn-warning btn-sm float-end';
-    editBtn.appendChild(document.createTextNode('Edit'));
-
-    // Append buttons to list item
-    li.appendChild(deleteBtn);
-    li.appendChild(UpdateBtn);
-    li.appendChild(editBtn);
-
-    // Append list item to user list
-    userList.appendChild(li);
-
-
-    // const lii= document.createElement('li');
-    // lii.className = 'list-group-item';
-    // lii.appendChild(document.createTextNode(`${user.Category} => ${user.Description} || ${user.Amount}`));
-
-    // lii.appendChild(deleteBtn);
-    // Totalexp.appendChild(lii);
-
-    // Delete button click event handler
-    deleteBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        try {
-            const userId = user.id;
-            const response = await axios.delete(`http://localhost:5000/delete/${userId}`);
-            console.log(response);
-            li.remove();
-        } catch (error) {
-            console.log(error);
-        }
-    });
-
-    // Edit button click event handler
-    editBtn.addEventListener('click', (e) => {
+    editBtn.className = 'btn btn-warning btn-sm small-button';
+    editBtn.textContent = 'Edit';
+    editBtn.style.backgroundColor = 'orange'; // Example background color
+    editBtn.style.color = 'white'; // Example text color
+    editBtn.addEventListener('click', async (e) => {
+        // Your edit button logic here
         e.preventDefault();
 
         const userId = user.id;
@@ -94,56 +71,97 @@ function createListItem(user) {
         catInput.value = user.Category;
 
     });
-    UpdateBtn.addEventListener('click', (e) => {
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'btn btn-danger btn-sm small-button';
+    deleteBtn.textContent = 'Delete';
+    deleteBtn.style.backgroundColor = 'red'; // Example background color
+    deleteBtn.style.color = 'white'; // Example text color
+    deleteBtn.addEventListener('click', async (e) => {
+        // Your delete button logic here
         e.preventDefault();
-        performUpdate();
-        clearFields();
-
-        async function performUpdate() {
+        try {
             const userId = user.id;
-            const updatedamount = amountInput.value;
-            const updateddiscription = disInput.value;
-            const updatedcategory = catInput.value;
-
-            // Update the user object
-            const updatedUser = {
-                id: userId,
-                Amount: updatedamount,
-                Description: updateddiscription,
-                Category: updatedcategory
-            };
-            const newText = document.createTextNode(`${updatedUser.Category} => ${updatedUser.Description} || ${updatedUser.Amount}`);
-
-            if (li.firstChild) {
-                li.removeChild(li.firstChild);
-            }
-            li.appendChild(newText);
-
-            try {
-                // Send a PUT request to the CRUD API to update the user
-                const response = await axios.put(`http://localhost:5000/edit/${userId}`, updatedUser);
-                console.log(response);
-            } catch (error) {
-                console.log(error);
-            }
-
+            const response = await axios.delete(`http://localhost:5000/delete/${userId}`);
+            console.log(response);
+            tr.remove();
+        } catch (error) {
+            console.log(error);
         }
+    });
+
+    // Create update button
+    const UpdateBtn = document.createElement('button');
+    UpdateBtn.className = ' btn btn-primary btn-sm  small-button';
+    UpdateBtn.textContent = 'Update';
+    UpdateBtn.style.backgroundColor = 'Blue'; // Example background color
+    UpdateBtn.style.color = 'white'; // Example text color
+
+    UpdateBtn.addEventListener('click',  async(e) => {
+        e.preventDefault();
+        console.log("Amount:", amountInput.value);
+        console.log("Description:", disInput.value);
+        console.log("Category:", catInput.value);
+        
+
+        const userId = user.id;
+        const updatedamount = amountInput.value;
+        const updateddiscription = disInput.value;
+        const updatedcategory = catInput.value;
+      
+
+        console.log("updatedamount:", updatedamount);
+        console.log("updateddiscription:", updateddiscription);
+        console.log("updatedcategory:", updatedcategory);
+
+        const updatedUser = {
+            id: userId,
+            Amount: updatedamount,
+            Description: updateddiscription,
+            Category: updatedcategory
+        };
 
 
-    })
+        const parentRow = UpdateBtn.closest('tr');
+        const cells = parentRow.cells;
+        cells[0].textContent = updatedamount;
+        cells[1].textContent = updateddiscription;
+        cells[2].textContent = updatedcategory;
 
 
+        try {
 
+            const response = await axios.put(`http://localhost:5000/edit/${userId}`, updatedUser);
+            console.log(response);
+
+        } catch (error) {
+            console.log(error);
+        }
+        clearFields();
+    });
+
+
+    actionCell.appendChild(editBtn);
+    actionCell.appendChild(deleteBtn);
+    actionCell.appendChild(UpdateBtn);
+
+
+    tr.appendChild(amountCell);
+    tr.appendChild(descriptionCell);
+    tr.appendChild(categoryCell);
+    tr.appendChild(actionCell);
+
+    table.appendChild(tr);
 }
+
 let totalExpenseAmount
 window.addEventListener('DOMContentLoaded', async () => {
-   
+
     try {
         const response = await axios.get('http://localhost:5000/GetExpense');
         const expenses = response.data.Expenses;
 
-        // Clear the user list
-        userList.innerHTML = '';
+
 
         // Iterate over each user and create list items
         totalExpenseAmount = 0;
@@ -152,13 +170,15 @@ window.addEventListener('DOMContentLoaded', async () => {
             totalExpenseAmount += parseFloat(expense.Amount);
             console.log(totalExpenseAmount);
         }
-        const totalExpenseItem = document.createElement('li');
-        totalExpenseItem.className = 'list-group-item';
-        totalExpenseItem.appendChild(document.createTextNode(`Total Expense: ${totalExpenseAmount}`));
+        const totalExpenseItem = document.createElement('h1');
+        totalExpenseItem.className = "container text-center my-3  text-white";
+        totalExpenseItem.textContent = `Total Expense: ${totalExpenseAmount}`;
+        if (Totalexp) {
+            Totalexp.appendChild(totalExpenseItem); // Append totalExpenseItem to Totalexp
+        } else {
+            console.log("Totalexp element not found");
+        }
 
-        // Append the total expense item to the 'Totalexp' element
-        Totalexp.innerHTML = ''; // Clear previous content
-        Totalexp.appendChild(totalExpenseItem);
     } catch (err) {
         console.log(err);
     }
@@ -167,5 +187,5 @@ window.addEventListener('DOMContentLoaded', async () => {
 function clearFields() {
     amountInput.value = '';
     disInput.value = '';
-    catInput.selectedIndex = 0;
+    catInput.value = 0;
 }
