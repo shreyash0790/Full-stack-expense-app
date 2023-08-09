@@ -1,4 +1,5 @@
 const Users = require('../models/sign');
+const bcrypt= require('bcrypt');
 
 exports.GetUser = async (req, res, next) => {
     try {
@@ -7,11 +8,16 @@ exports.GetUser = async (req, res, next) => {
 
         const existingUser = await Users.findOne({ where: { Email: Email} });
         if (existingUser) {
-            if (existingUser.Password === Password) {
+         bcrypt.compare(Password,existingUser.Password, (err,result)=>{
+            if(err){
+                throw new Error('Something went Wrong')
+            }
+            if (result==true) {
                 return res.status(200).json({ User: 'login successful' });
-            } else {
+            } else  {
                 return res.status(401).json({ error: 'password incorrect' });
             }
+         })   
         } else {
             return res.status(404).json({ User: null }); 
         }

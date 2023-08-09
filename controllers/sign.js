@@ -1,4 +1,5 @@
 const Users = require('../models/sign');
+const bcrypt= require('bcrypt');
 
 
 exports.AddUser=async (req, res, next) => {
@@ -12,14 +13,17 @@ exports.AddUser=async (req, res, next) => {
         if (existingUser) {
             return res.status(400).json({ error: 'Email already exists' });
         }
-        
-        const newUser=await Users.create({
-        Name: Name,
-        Email:Email,
-       Password:Password,
-       })
-       res.status(201).json({ User: newUser});
-       console.log('newUSer  fn called');
+        const saltrounds=10;
+        bcrypt.hash(Password,saltrounds,async(err,hash)=>{
+          const newUser=await Users.create({
+            Name: Name,
+            Email:Email,
+           Password:hash
+           })
+           console.log(err);
+           res.status(201).json({ User: newUser});
+
+        })
        
       } catch (err) {
         console.error('Error adding expense:', err);
