@@ -5,7 +5,7 @@ const catInput = document.querySelector('#cat');
 const Totalexp = document.querySelector('#exp');
 const table = document.querySelector('.table-bordered');
 
-// Listen for form submit
+
 myForm.addEventListener('submit', onSubmit);
 
 function onSubmit(e) {
@@ -23,46 +23,52 @@ function onSubmit(e) {
 
 async function postFormData(formData) {
     try {
-        console.log(formData);
-        const response = await axios.post('http://localhost:5000/AddExpense', formData);
-        const user = response.data.Expense
-        createListItem(user); // Create and append list item
-
-        clearFields(); // Clear input fields
+      console.log(formData);
+      const token = localStorage.getItem('token');
+      
+      const response = await axios.post('http://localhost:5000/AddExpense', formData, {
+        headers: {
+          "Authorization": token
+        }
+      });
+  
+      const user = response.data.Expense;
+      createListItem(user);
+      clearFields();
     } catch (err) {
-        console.log(err);
+      console.log(err);
     }
-}
+  }
 
 function createListItem(user) {
     const tr = document.createElement('tr');
 
-    // Create cells for each column
+  
     const amountCell = document.createElement('td');
     amountCell.textContent = user.Amount;
-    amountCell.style.color = 'white'; // Example color
-    amountCell.style.fontSize = '20px'; // Example font size
+    amountCell.style.color = 'white'; 
+    amountCell.style.fontSize = '15px'; 
 
     const descriptionCell = document.createElement('td');
     descriptionCell.textContent = user.Description;
-    descriptionCell.style.color = 'white'; // Example color
-    descriptionCell.style.fontSize = '20px'; // Example font size
+    descriptionCell.style.color = 'white'; 
+    descriptionCell.style.fontSize = '15px'; 
 
     const categoryCell = document.createElement('td');
     categoryCell.textContent = user.Category;
-    categoryCell.style.color = 'white'; // Example color
-    categoryCell.style.fontSize = '20px'; // Example font size
+    categoryCell.style.color = 'white'; 
+    categoryCell.style.fontSize = '15px'; 
 
     const actionCell = document.createElement('td');
 
-    // Create buttons for edit and delete actions
+   
     const editBtn = document.createElement('button');
     editBtn.className = 'btn btn-warning btn-sm small-button';
     editBtn.textContent = 'Edit';
-    editBtn.style.backgroundColor = 'orange'; // Example background color
-    editBtn.style.color = 'white'; // Example text color
+    editBtn.style.backgroundColor = 'orange'; 
+    editBtn.style.color = 'white'; 
     editBtn.addEventListener('click', async (e) => {
-        // Your edit button logic here
+       
         e.preventDefault();
 
         const userId = user.id;
@@ -75,14 +81,20 @@ function createListItem(user) {
     const deleteBtn = document.createElement('button');
     deleteBtn.className = 'btn btn-danger btn-sm small-button';
     deleteBtn.textContent = 'Delete';
-    deleteBtn.style.backgroundColor = 'red'; // Example background color
-    deleteBtn.style.color = 'white'; // Example text color
+    deleteBtn.style.backgroundColor = 'red'; 
+    deleteBtn.style.color = 'white'; 
     deleteBtn.addEventListener('click', async (e) => {
-        // Your delete button logic here
+       
         e.preventDefault();
         try {
             const userId = user.id;
-            const response = await axios.delete(`http://localhost:5000/delete/${userId}`);
+            const token = localStorage.getItem('token');
+            const response = await axios.delete(`http://localhost:5000/delete/${userId}`, {
+              headers: {
+                "Authorization": token
+              }
+            });
+
             console.log(response);
             tr.remove();
         } catch (error) {
@@ -90,12 +102,12 @@ function createListItem(user) {
         }
     });
 
-    // Create update button
+
     const UpdateBtn = document.createElement('button');
     UpdateBtn.className = ' btn btn-primary btn-sm  small-button';
     UpdateBtn.textContent = 'Update';
-    UpdateBtn.style.backgroundColor = 'Blue'; // Example background color
-    UpdateBtn.style.color = 'white'; // Example text color
+    UpdateBtn.style.backgroundColor = 'Blue';
+    UpdateBtn.style.color = 'white'; 
 
     UpdateBtn.addEventListener('click',  async(e) => {
         e.preventDefault();
@@ -131,7 +143,12 @@ function createListItem(user) {
 
         try {
 
-            const response = await axios.put(`http://localhost:5000/edit/${userId}`, updatedUser);
+            const token = localStorage.getItem('token');
+            const response = await axios.put(`http://localhost:5000/edit/${userId}`, updatedUser, {
+              headers: {
+                "Authorization": token
+              }
+            });
             console.log(response);
 
         } catch (error) {
@@ -158,25 +175,22 @@ let totalExpenseAmount
 window.addEventListener('DOMContentLoaded', async () => {
 
     try {
-        const response = await axios.get('http://localhost:5000/GetExpense');
+        const token=localStorage.getItem('token');
+        const response = await axios.get('http://localhost:5000/GetExpense', {headers:{"Authorization":token}});
         const expenses = response.data.Expenses;
 
 
 
-        // Iterate over each user and create list items
         totalExpenseAmount = 0;
         for (const expense of expenses) {
             createListItem(expense);
             totalExpenseAmount += parseFloat(expense.Amount);
-            console.log(totalExpenseAmount);
         }
         const totalExpenseItem = document.createElement('h1');
         totalExpenseItem.className = "container text-center my-3  text-white";
         totalExpenseItem.textContent = `Total Expense: ${totalExpenseAmount}`;
         if (Totalexp) {
-            Totalexp.appendChild(totalExpenseItem); // Append totalExpenseItem to Totalexp
-        } else {
-            console.log("Totalexp element not found");
+            Totalexp.appendChild(totalExpenseItem); 
         }
 
     } catch (err) {

@@ -5,10 +5,13 @@ const cors=require('cors')
 
 const sequelize=require('./util/database');
 
+
 const app = express();
 const HomeRoutes = require('./routes/home');
 const SignRoutes=require('./routes/sign');
 const LoginRoutes=require('./routes/login');
+const Expense=require('./models/home')
+const User=require('./models/sign')
 
 app.use(cors());
 
@@ -18,6 +21,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(HomeRoutes);
 app.use(SignRoutes);
 app.use(LoginRoutes);
+
+User.hasMany(Expense);
+Expense.belongsTo(User);
+
+
 
 
 sequelize
