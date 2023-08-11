@@ -1,13 +1,12 @@
 const RazorPay=require('razorpay');
 const Orders=require('../models/Orders')
-require('dotenv').config(); // Load the .env fil
 
 
 exports.PremiumMember=async (req, res, next) => {
     try {
      var rzp=new RazorPay({
-        key_id: process.env.key_id,
-        key_secret: process.env.key_secret
+        key_id: 'rzp_test_Rw5CRl8LJoz3YI',
+        key_secret: 'qszHBay3bGUGTpr6Y1nOGE3w'
      })
 
     const amount=2500;

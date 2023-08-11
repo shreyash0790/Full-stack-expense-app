@@ -4,11 +4,8 @@ const disInput = document.querySelector('#dis');
 const catInput = document.querySelector('#cat');
 const Totalexp = document.querySelector('#exp');
 const table = document.querySelector('.table-bordered');
-const razorPay=document.querySelector('#razorPay');
-
 
 myForm.addEventListener('submit', onSubmit);
-razorPay.addEventListener('submit', onBuy);
 
 function onSubmit(e) {
     e.preventDefault();
@@ -206,8 +203,7 @@ function clearFields() {
     catInput.value = 0;
 }
 
-async function onBuy(e){
-    e.preventDefault();
+ document.getElementById('razorPay').onClick=async function(e){
     const token=localStorage.getItem('token');
     const response = await axios.get('http://localhost:5000/Purchase/BuyPremium', {headers:{"Authorization":token}});
     console.log(response);
@@ -227,6 +223,7 @@ async function onBuy(e){
 
 const rzp1= new Razorpay(options)
 rzp1.open();
+e.preventDefault();
 
 rzp1.on('payment.failed',function(response){
     alert('Transaction failed!');
