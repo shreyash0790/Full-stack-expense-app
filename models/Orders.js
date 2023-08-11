@@ -1,29 +1,26 @@
 const Sequelize=require('sequelize');
 const sequelize=require('../util/database');
 
-const User=sequelize.define('Users',{
+const Orders=sequelize.define('Orders',{
  id:{
   type: Sequelize.INTEGER,
   autoIncrement:true,
   allowNull:false,
   primaryKey:true
  },
-Name:{
+PaymentId:{
   type: Sequelize.STRING,
   allowNull:false
  },
- Email:{
+OrderId:{
   type: Sequelize.STRING,
   allowNull:false,
   unique: true
  },
-Password:{
+Status:{
   type: Sequelize.STRING,
   allowNull:false
 
  },
- IsPremiumUser:{
-  type:Sequelize.BOOLEAN
- }
 })
-module.exports=User;
+module.exports=Orders;

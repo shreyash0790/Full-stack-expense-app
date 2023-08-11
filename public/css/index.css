@@ -14,7 +14,7 @@ h1.container.text-center.my-3.fw-bold.text-success{
 
 .button-flex-container {
 display: flex;
-gap: 10px; 
+gap: 20px; 
 }
 .reduce-margin {
 margin: 0; /* Set margin to 0 to remove vertical spacing */

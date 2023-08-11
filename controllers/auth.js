@@ -1,12 +1,13 @@
 const jwt=require('jsonwebtoken');
 const Users=require('../models/sign');
+require('dotenv').config(); // Load the .env fil
 
 
 exports.Authentication=async(req,res,next)=>{
 
 try{
 const token=req.header("Authorization")
-const user=jwt.verify(token, '4jj424jjjfsdnbd34jmj4jmv9ddddtr93njmf3465' )
+const user = jwt.verify(token, process.env.token); // Use process.env.token
 console.log('userId>>', user.userId)
  
   

@@ -8,6 +8,8 @@ router.post('/AddExpense',UserAuthen.Authentication, Homecontroller.addExpense);
 
 
 router.delete('/delete/:id',UserAuthen.Authentication,Homecontroller.deleteExp)
-router.put('/edit/:id',Homecontroller.editExp)
+router.put('/edit/:id',UserAuthen.Authentication,Homecontroller.editExp)
+
+
 
 module.exports=router;
