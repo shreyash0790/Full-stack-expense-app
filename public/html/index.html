@@ -17,17 +17,20 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-           
+
           </li>
         </ul>
         <div class="button-flex-container">
-          <button class="btn btn-outline-success expp" type="submit"
-            onclick="window.location.href='login.html'">Login</button>
-          <button class="btn btn-outline-success expp" type="submit" onclick="window.location.href='sign.html'">Sign
+          <button class="btn btn-primary expp" type="submit" onclick="window.location.href='sign.html'"
+            style="padding-left: 1 rem; padding-right: 1 rem ;color: #f5fdf8; ; font-size: 16px;">Sign
             Up</button>
+          <button class="btn btn-success expp" type="submit" onclick="window.location.href='login.html'" id="login-btn"
+            style="padding-left: 1 rem; padding-right: 1 rem ;color: #f5fdf8; ; font-size: 16px;">Login</button>
           <button class="btn btn-primary btn-lg  expp "
-            style="padding-left: 1 rem; padding-right: 1 rem ;color: #f5fdf8; ; font-size: 16px;"
-            type="submit" id="razorPay">Buy Premium</button>
+            style="padding-left: 1 rem; padding-right: 1 rem ;color: #f5fdf8; ; font-size: 16px;" type="submit"
+            id="razorPay">Buy Premium</button>
+          <button class="btn btn-outline-primary expp" type="submit" onclick="window.location.href='login.html'"
+            id="logOut-btn"></button>
         </div>
       </div>
     </div>
@@ -44,6 +47,7 @@
 
                 <div class="mb-md-5 mt-md-4 pb-5">
                   <h3 class="list-title fw-bold text-primary expt " style="font-size :20px;">Expense List</h3>
+                  <div class="table-responsive">
                   <table class="table table-bordered styled-table">
                     <thead>
                       <tr>
@@ -55,6 +59,7 @@
                       </tr>
                     </thead>
                   </table>
+                  </div>
                 </div>
               </div>
             </div>
@@ -111,20 +116,28 @@
           </form><br>
 
           <div class="list-container ">
-            <h3 class="list-title fw-bold text-danger exp " style="font-size :20px;"> Total Expenses</h3>
-            <div class="box-with-text" id="exp">
-              <h1 class="container text-center my-3  text-white" style="font-size: 40px;"> </h1>
+            <h3 class="list-title fw-bold text-danger exp " style="font-size :20px;" id="tExp"> </h3>
+            <div class="text-center text-lg-start mt-2 pt-2">
+
+              <button type="submit" class="btn btn-success btn-lg  expp "
+                style="padding-left: 1 rem; padding-right: 1 rem ;color: #f5fdf8; font-weight: bold; font-size: 16px;" id="leader-b">
+                Leader board (premium Feature)</button>
+                <ul class="list-group" id="leader" style="display: none;">
+                  <li class="list-group-item"></li>
+                </ul>
             </div>
           </div>
         </div>
       </div>
     </div>
     </div>
+    </div>
 
     </div>
   </section>
-  <script src="https://checkout.razorpay.com/v1/checkout.js" ></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
   <script src="/public/js/index.js"></script>
 </body>
+
 </html>

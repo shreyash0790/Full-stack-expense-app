@@ -1,31 +1,35 @@
 const RazorPay=require('razorpay');
 const Orders=require('../models/Orders')
+const Expense = require('../models/home');
+
+require('dotenv').config();
+
+exports.PremiumMember = async (req, res, next) => {
+  console.log(process.env.RAZORPAY_ID_KEY)
+  console.log(process.env.RAZORPAY_SECRET_KEY)
+  try {
+      var rzp = new RazorPay({
+          key_id:process.env.RAZORPAY_ID_KEY,
+          key_secret: process.env.RAZORPAY_SECRET_KEY
+      });
+
+  
+
+     
+    const order = await rzp.orders.create({ amount:3500, currency: 'INR' });
 
 
-exports.PremiumMember=async (req, res, next) => {
-    try {
-     var rzp=new RazorPay({
-        key_id: 'rzp_test_Rw5CRl8LJoz3YI',
-        key_secret: 'qszHBay3bGUGTpr6Y1nOGE3w'
-     })
+    await req.users.createOrder({ OrderId: order.id, Status: 'Pending' });
 
-    const amount=2500;
+    // const isPremiumUser=req.users.IsPremiumUser
+    // const Username=req.users.Name
 
-    rzp.orders.create({amount,currency:"INR"},(err,order)=>{
-     if(err){
-       throw new Error("err in creating rzp Oder")   
-     }
-     req.user.createOrder({OrderId:order.id,Status:'Pending'}).then(()=>{
-        return res.status(201).json({order,key_id:rzp.key_id})
-     })
+    return res.status(201).json({ order, key_id: rzp.key_id});
 
-
-    })
-
-      } catch (err) {
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
-    
+  } catch (err) {
+    console.error(err); 
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
 }
 
 exports.UpdateTrans = async (req, res, next) => {
@@ -36,7 +40,7 @@ exports.UpdateTrans = async (req, res, next) => {
 
         await Promise.all([
             order.update({ PaymentId: payment_id, Status: 'Successful' }),
-            req.user.update({ isPremiumUser: true })
+            req.users.update({ IsPremiumUser: true})
         ]);
 
         return res.status(202).json({ success: true, message: 'Transaction Successful' });
@@ -45,6 +49,24 @@ exports.UpdateTrans = async (req, res, next) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+exports.getUsers= async (req, res, next) => {
+  try {
+
+ 
+  const isPremiumUser= await req.users.IsPremiumUser
+  const Username=await req.users.Name
+
+  return res.status(201).json({ isPremiumUser,Username});
+
+} catch (err) {
+  console.error(err); 
+    res.status(500).json({ error: 'Internal Server Error' });
+}
+
+}
+
+
+
 
 
 

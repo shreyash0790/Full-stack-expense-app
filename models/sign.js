@@ -23,7 +23,8 @@ Password:{
 
  },
  IsPremiumUser:{
-  type:Sequelize.BOOLEAN
+  type:Sequelize.BOOLEAN,
+  defaultValue: false // Specify your default value
  }
 })
 module.exports=User;

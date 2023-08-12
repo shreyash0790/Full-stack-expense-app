@@ -10,16 +10,14 @@ const Orders=sequelize.define('Orders',{
  },
 PaymentId:{
   type: Sequelize.STRING,
-  allowNull:false
+  defaultValue: 'Null' // Specify your default value
+
  },
 OrderId:{
   type: Sequelize.STRING,
-  allowNull:false,
-  unique: true
  },
 Status:{
   type: Sequelize.STRING,
-  allowNull:false
 
  },
 })

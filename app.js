@@ -12,6 +12,7 @@ const HomeRoutes = require('./routes/home');
 const SignRoutes=require('./routes/sign');
 const LoginRoutes=require('./routes/login');
 const PurchaseRoutes=require('./routes/purchase');
+const PremiumFeatRoutes=require('./routes/premiumFeatures');
 const Expense=require('./models/home')
 const User=require('./models/sign')
 const Orders=require('./models/Orders');
@@ -26,6 +27,7 @@ app.use(HomeRoutes);
 app.use(SignRoutes);
 app.use(LoginRoutes);
 app.use(PurchaseRoutes);
+app.use(PremiumFeatRoutes);
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
@@ -39,9 +41,8 @@ Orders.belongsTo(User);
 sequelize
 .sync()
 .then(result=>{
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
+    app.listen(5000, () => {
+        console.log(`Server is running on port 5000`);
     });
 })
 .catch(err=>{

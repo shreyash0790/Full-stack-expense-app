@@ -2,7 +2,6 @@ const myForm = document.querySelector('#my-form');
 const amountInput = document.querySelector('#amount');
 const disInput = document.querySelector('#dis');
 const catInput = document.querySelector('#cat');
-const Totalexp = document.querySelector('#exp');
 const table = document.querySelector('.table-bordered');
 
 myForm.addEventListener('submit', onSubmit);
@@ -179,17 +178,15 @@ window.addEventListener('DOMContentLoaded', async () => {
         const expenses = response.data.Expenses;
 
 
-
         totalExpenseAmount = 0;
         for (const expense of expenses) {
             createListItem(expense);
             totalExpenseAmount += parseFloat(expense.Amount);
         }
-        const totalExpenseItem = document.createElement('h1');
-        totalExpenseItem.className = "container text-center my-3  text-white";
-        totalExpenseItem.textContent = `Total Expense: ${totalExpenseAmount}`;
-        if (Totalexp) {
-            Totalexp.appendChild(totalExpenseItem); 
+
+        const TotalExp = document.getElementById('tExp');
+        if (TotalExp) {
+           TotalExp.textContent=`Total Expense =${totalExpenseAmount} Rs`
         }
 
     } catch (err) {
@@ -202,8 +199,7 @@ function clearFields() {
     disInput.value = '';
     catInput.value = 0;
 }
-
- document.getElementById('razorPay').onClick=async function(e){
+ document.getElementById('razorPay').onclick=async function(e){
     const token=localStorage.getItem('token');
     const response = await axios.get('http://localhost:5000/Purchase/BuyPremium', {headers:{"Authorization":token}});
     console.log(response);
@@ -217,7 +213,11 @@ function clearFields() {
         payment_id:response.razorpay_payment_id},
 
          {headers:{"Authorization":token}})
+         
+
         alert('You are a Premium User now !')
+       
+
        },
     };
 
@@ -230,4 +230,75 @@ rzp1.on('payment.failed',function(response){
 });
 
 }
+document.addEventListener('DOMContentLoaded', async function() {
+    const token = localStorage.getItem('token');
+    const response = await axios.get('http://localhost:5000/Purchase/getUsers', { headers: { "Authorization": token } });
+    console.log(response.data);
+    
+    const isPremiumUser = response.data.isPremiumUser;
+    const Username=response.data.Username
+  
+    // Select the button element
+    const razorPayButton = document.getElementById('razorPay');
+    const LoginButton = document.getElementById('login-btn');
+    const LogOutButton = document.getElementById('logOut-btn');
+    const leaderButton = document.getElementById('leader-b');
+  
+    // Update button text based on premium status
+    if (isPremiumUser) {
+      razorPayButton.textContent = 'Premium User';
+          razorPayButton.disabled = true;
+            
+          leaderButton.textContent='Show Leader Board';
+    } else {
+      razorPayButton.textContent = 'Buy Premium';
+      razorPayButton.disabled = false;
+      leaderButton.disabled=true;
+    }
+    // Update button text based on premium status
+    if (Username) {
+        LoginButton.textContent = ` User:${Username}`;
+            LoginButton.disabled = true;
+            LogOutButton.textContent = 'Log Out';
+
+      } else {
+       LoginButton.textContent = 'Login';
+       LoginButton.disabled = false;
+       LogOutButton.textContent = "";
+      }
+
+
+    
+  });
+
+
+
+
+  document.getElementById('leader-b').onclick=async function(e){
+    const token=localStorage.getItem('token');
+  const response = await axios.get('http://localhost:5000/Premium/getleader', {headers:{"Authorization":token}});
+  console.log(response)
+       
+
+  const leaderList = document.getElementById('leader');
+
+    // Clear any previous list items
+    leaderList.innerHTML = '';
+    leaderList.style.display = 'none';
+    
+
+    response.data.forEach(entry => {
+        const li = document.createElement('li');
+        li.className = 'list-group-item';
+        li.textContent = `${entry.User.Name}: ${entry.totalCost}`;
+        leaderList.appendChild(li);
+        leaderList.style.display = 'block';
+    });
+  }
+
+
+
+
+
+
 

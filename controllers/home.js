@@ -1,10 +1,15 @@
 const Expense = require('../models/home');
+const Users = require('../models/sign');
+
 
  
 exports.getExpense=async (req, res, next) => {
     try {
     const allExpenses = await Expense.findAll({where :{userId:req.users.id}});
     res.status(200).json({Expenses: allExpenses });
+    
+
+
         
 
       } catch (err) {
