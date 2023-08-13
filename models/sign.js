@@ -25,6 +25,10 @@ Password:{
  IsPremiumUser:{
   type:Sequelize.BOOLEAN,
   defaultValue: false // Specify your default value
+ },
+ TotalExpense:{
+  type:Sequelize.FLOAT,
+  defaultValue:0
  }
 })
 module.exports=User;

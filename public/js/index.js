@@ -93,8 +93,9 @@ function createListItem(user) {
               }
             });
 
-            console.log(response);
-            tr.remove();
+            if (response.status === 200) {
+              tr.remove(); // Remove the row from the table
+          }
         } catch (error) {
             console.log(error);
         }
@@ -290,7 +291,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     response.data.forEach(entry => {
         const li = document.createElement('li');
         li.className = 'list-group-item';
-        li.textContent = `${entry.User.Name}: ${entry.totalCost}`;
+        li.textContent = `${entry.Name}: ${entry.TotalExpense} Rs` ;
         leaderList.appendChild(li);
         leaderList.style.display = 'block';
     });
