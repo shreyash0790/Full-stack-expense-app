@@ -1,4 +1,4 @@
-var Brevo = require('@getbrevo/brevo'); 
+const Brevo = require('sib-api-v3-sdk'); 
 require('dotenv').config();
 
 exports.PassReset= async (req, res, next) => {
@@ -6,10 +6,8 @@ exports.PassReset= async (req, res, next) => {
         const Email= req.body.Email; 
         console.log(Email);
         const  Client = Brevo.ApiClient.instance;
-       
-
 // Configure API key authorization: api-key
-const  apiKey = Client.authentications['BREVO_KEY'];
+const  apiKey = Client.authentications["api-key"];
 apiKey.apiKey = process.env.BREVO_KEY;
 const transEmailApi = new Brevo.TransactionalEmailsApi();
 const sender ={
@@ -20,12 +18,12 @@ const sender ={
 const receivers=[
 
     {
-        email:`${Email}`
+        email:Email
     }
 
-]
+];
 
-const ResetEmail=await transEmailApi.sendTransacEmail({
+transEmailApi.sendTransacEmail({
     sender,
     to:receivers,
     subject:'Password Reset For Expense Tracker  ',
@@ -45,9 +43,9 @@ const ResetEmail=await transEmailApi.sendTransacEmail({
     </html>
     `
 
-})
+}).then((res)=>console.log(res))
 
-res.status(500).json({ Email: ResetEmail });
+res.status(200).json('Email send sucesssfully');
 
 
     } catch (err) {
