@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const UserAuthen=require('../controllers/auth');
+const UserAuthen=require('../middleware/auth');
 const PremiumFeat=require('../controllers/premiumFeatures')
 
 

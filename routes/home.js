@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Homecontroller=require('../controllers/home');
-const UserAuthen=require('../controllers/auth');
+const UserAuthen=require('../middleware/auth');
 
 router.get('/GetExpense', UserAuthen.Authentication,Homecontroller.getExpense);
 

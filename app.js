@@ -13,9 +13,12 @@ const SignRoutes=require('./routes/sign');
 const LoginRoutes=require('./routes/login');
 const PurchaseRoutes=require('./routes/purchase');
 const PremiumFeatRoutes=require('./routes/premiumFeatures');
+const PasswordRoutes=require('./routes/Password')
+
 const Expense=require('./models/home')
 const User=require('./models/sign')
 const Orders=require('./models/Orders');
+
 
 
 app.use(cors());
@@ -28,6 +31,7 @@ app.use(SignRoutes);
 app.use(LoginRoutes);
 app.use(PurchaseRoutes);
 app.use(PremiumFeatRoutes);
+app.use(PasswordRoutes);
 
 User.hasMany(Expense);
 Expense.belongsTo(User);

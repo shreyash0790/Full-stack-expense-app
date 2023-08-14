@@ -5,8 +5,6 @@ const Expense = require('../models/home');
 require('dotenv').config();
 
 exports.PremiumMember = async (req, res, next) => {
-  console.log(process.env.RAZORPAY_ID_KEY)
-  console.log(process.env.RAZORPAY_SECRET_KEY)
   try {
       var rzp = new RazorPay({
           key_id:process.env.RAZORPAY_ID_KEY,
