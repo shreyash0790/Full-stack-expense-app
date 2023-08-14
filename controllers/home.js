@@ -1,5 +1,6 @@
 const Expense = require('../models/home');
 const Users = require('../models/sign');
+const sequelize=require('../util/database');
 
 
  
@@ -17,65 +18,70 @@ exports.getExpense=async (req, res, next) => {
 
 
 exports.addExpense=async (req, res, next) => {
-    try {
-        const Amount= parseFloat(req.body.Amount);
-        const Description= req.body.Description;
-        const Category= req.body.Category; 
-        const newExpense=await Expense.create({
-        Amount: Amount,
-        Description:Description,
-        Category:Category,
-        UserId:req.users.id
-       })
+  try {
+    const Amount = parseFloat(req.body.Amount);
+        const Description = req.body.Description;
+        const Category = req.body.Category;
+    await sequelize.transaction(async (t) => {
+         
+        // Create the new expense
+        const newExpense = await Expense.create({
+            Amount: Amount,
+            Description: Description,
+            Category: Category,
+            UserId: req.users.id
+        }, { transaction: t });
 
-        // Retrieve the user's current total expense
-        const currentUser = await Users.findByPk(req.users.id);
-        const currentTotalExpense = parseFloat(currentUser.TotalExpense || 0);
+        // Update the user's total expense
+        const [affectedRows] = await Users.update(
+            { TotalExpense: sequelize.literal(`TotalExpense + ${Amount}`) },
+            { where: { id: req.users.id }, returning: true, transaction: t }
+        );
 
-        // Calculate the new total expense
-        const newTotalExpense = currentTotalExpense + Amount;
+        if (affectedRows === 0) {
+            throw new Error('User not found');
+        }
 
-        // Update the user's total expense in the Users table
-        await currentUser.update({ TotalExpense: newTotalExpense });
-
-       res.status(201).json({ Expense: newExpense });
-       
-      } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
+        res.status(201).json({ Expense: newExpense });
+    });
+} catch (err) {
+  console.log(err)
+    res.status(500).json({ error: 'Internal Server Error' });
+}
 }
 exports.deleteExp=async (req, res, next) => {
   try {
     const expenseId = req.params.id;
     const userId = req.users.id;
 
-    // Find the expense to be deleted and include the associated user
-    const expense = await Expense.findOne({
-        where: { id: expenseId, UserId: userId },
-        include: { model: Users, attributes: ['id', 'TotalExpense'] }
+    await sequelize.transaction(async (t) => {
+        // Find the expense to be deleted and include the associated user
+        const expense = await Expense.findOne({
+            where: { id: expenseId, UserId: userId },
+            include: { model: Users, attributes: ['id', 'TotalExpense'] },
+            transaction: t
+        });
+
+        if (!expense) {
+            return res.status(404).json({ error: 'Expense not found' });
+        }
+
+        // Calculate expense amount and new TotalExpense
+        const expenseAmount = expense.Amount;
+        const newTotalExpense = Math.max(expense.User.TotalExpense - expenseAmount, 0);
+
+        // Update user's TotalExpense and delete the expense in one transaction
+        await Promise.all([
+            expense.User.update({ TotalExpense: newTotalExpense }, { transaction: t }),
+            expense.destroy({ transaction: t })
+        ]);
+
+       
+        res.status(200).json({ expense: 'deleted' });
     });
-    console.log(expense.User)
-
-    if (!expense) {
-        return res.status(404).json({ error: 'Expense not found' });
-    }
-
-    const expenseAmount = expense.Amount;
-
-
-    const newTotalExpense = Math.max(expense.User.TotalExpense - expenseAmount, 0);
-
-    await expense.User.update({ TotalExpense: newTotalExpense });
-
-    // Delete the expense
-    await expense.destroy();
-    res.status(200).json({ expense:'deleted'});npm
-
-
-    } catch (err) {
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
+} catch (err) {
+    res.status(500).json({ error: 'Internal Server Error' });
+}
   
 }
 exports.editExp = async (req, res, next) => {
@@ -85,34 +91,39 @@ exports.editExp = async (req, res, next) => {
     const updatedDescription = req.body.Description;
     const updatedCategory = req.body.Category;
 
-  
-    const expense = await Expense.findOne({
-      where: { id: userId, UserId: req.users.id },
-      include: { model: Users, attributes: ['id', 'TotalExpense'] }
-  });
+    await sequelize.transaction(async (t) => {
+        const expense = await Expense.findOne({
+            where: { id: userId, UserId: req.users.id },
+            include: { model: Users, attributes: ['id', 'TotalExpense'] },
+            transaction: t
+        });
 
-    if (!expense) {
-      return res.status(404).json({ error: 'Expense not found' });
-    }
+        if (!expense) {
+            return res.status(404).json({ error: 'Expense not found' });
+        }
 
-const amountDifference = updatedAmount - expense.Amount;
+        const amountDifference = updatedAmount - expense.Amount;
 
-    // Update the expense fields
-    expense.Amount = updatedAmount;
-    expense.Description = updatedDescription;
-    expense.Category = updatedCategory;
-// Update the user's total expense
-const user = expense.User;
-const currentTotalExpense = parseFloat(user.TotalExpense || 0);
-const newTotalExpense = Math.max(currentTotalExpense + amountDifference, 0);
-await user.update({ TotalExpense: newTotalExpense });
+        // Update the expense fields
+        expense.Amount = updatedAmount;
+        expense.Description = updatedDescription;
+        expense.Category = updatedCategory;
 
-// Save the updated expense and user to the database
-await Promise.all([expense.save(), user.save()]);
+        // Update the user's total expense
+        const user = expense.User;
+        const currentTotalExpense = parseFloat(user.TotalExpense || 0);
+        const newTotalExpense = Math.max(currentTotalExpense + amountDifference, 0);
 
+        // Save the updated expense and user within the transaction
+        await Promise.all([
+            expense.save({ transaction: t }),
+            user.update({ TotalExpense: newTotalExpense }, { transaction: t })
+        ]);
+    });
 
-  } catch (err) {
-    console.error('Error updating expense:', err);
+    res.status(200).json({ success: true });
+
+} catch (err) {
     res.status(500).json({ error: 'Internal Server Error' });
-  }
+}
 };
