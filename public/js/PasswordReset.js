@@ -28,16 +28,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
   async function Datafetch(Data) {
     try {
+     
         const response = await axios.post('http://localhost:5000/password/forgotpassword', Data );
+        
         const responseData = response.data;
 
         if (response.status === 200) {
           console.log(response)
           alert("Reset link send ");
             window.location.href = 'login.html'
-
-      
         }
+
     } catch (err) {
        console.log(err)
     }

@@ -8,6 +8,7 @@ const sequelize=require('./util/database');
 
 
 const app = express();
+app.use(express.static(path.join(__dirname, 'public')));
 const HomeRoutes = require('./routes/home');
 const SignRoutes=require('./routes/sign');
 const LoginRoutes=require('./routes/login');
@@ -18,13 +19,22 @@ const PasswordRoutes=require('./routes/Password')
 const Expense=require('./models/home')
 const User=require('./models/sign')
 const Orders=require('./models/Orders');
+const PasswordReset=require('./models/PasswordReset')
 
 
 
 app.use(cors());
 
 app.use(express.json())
-app.use(express.static(path.join(__dirname, 'public')));
+
+app.use((req, res, next) => {
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com"
+  );
+  next();
+});
+
 
 app.use(HomeRoutes);
 app.use(SignRoutes);
@@ -38,6 +48,9 @@ Expense.belongsTo(User);
 
 User.hasMany(Orders);
 Orders.belongsTo(User);
+
+User.hasMany(PasswordReset);
+PasswordReset.belongsTo(User);
 
 
 
