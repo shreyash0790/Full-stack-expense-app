@@ -41,23 +41,40 @@ async function postFormData(formData) {
 function createListItem(user) {
     const tr = document.createElement('tr');
 
+    const dateCell = document.createElement('td');
+    dateCell.textContent = '';
+   
+    dateCell.style.fontSize = '15px'; 
+    dateCell.style.backgroundColor = 'skyblue';
+   dateCell.style.fontWeight = 'bold';
+
   
     const amountCell = document.createElement('td');
     amountCell.textContent = user.Amount;
-    amountCell.style.color = 'white'; 
+    amountCell.style.color = 'black'; 
     amountCell.style.fontSize = '15px'; 
+    amountCell.style.backgroundColor = 'skyblue';
+    amountCell.style.fontWeight = 'bold';
 
     const descriptionCell = document.createElement('td');
     descriptionCell.textContent = user.Description;
-    descriptionCell.style.color = 'white'; 
+    descriptionCell.style.color = 'black'; 
     descriptionCell.style.fontSize = '15px'; 
+   descriptionCell.style.backgroundColor = 'skyblue';
+  descriptionCell.style.fontWeight = 'bold';
 
     const categoryCell = document.createElement('td');
     categoryCell.textContent = user.Category;
-    categoryCell.style.color = 'white'; 
+    categoryCell.style.color = 'black'; 
     categoryCell.style.fontSize = '15px'; 
+    categoryCell.style.backgroundColor = 'skyblue';
+   categoryCell.style.fontWeight = 'bold';
+
+   const incomeCell = document.createElement('td');
+    incomeCell.style.backgroundColor = 'skyblue';
 
     const actionCell = document.createElement('td');
+    actionCell.style.backgroundColor = 'skyblue';
 
    
     const editBtn = document.createElement('button');
@@ -137,7 +154,7 @@ function createListItem(user) {
         const cells = parentRow.cells;
         cells[0].textContent = updatedamount;
         cells[1].textContent = updateddiscription;
-        cells[2].textContent = updatedcategory;
+        cells[2].textContent = updatedcategory; 
 
 
         try {
@@ -161,16 +178,17 @@ function createListItem(user) {
     actionCell.appendChild(deleteBtn);
     actionCell.appendChild(UpdateBtn);
 
-
+    tr.appendChild(dateCell);
     tr.appendChild(amountCell);
     tr.appendChild(descriptionCell);
     tr.appendChild(categoryCell);
+    tr.appendChild(incomeCell);
     tr.appendChild(actionCell);
 
     table.appendChild(tr);
 }
 
-let totalExpenseAmount
+
 window.addEventListener('DOMContentLoaded', async () => {
 
     try {
@@ -178,17 +196,10 @@ window.addEventListener('DOMContentLoaded', async () => {
         const response = await axios.get('http://localhost:5000/GetExpense', {headers:{"Authorization":token}});
         const expenses = response.data.Expenses;
 
-
-        totalExpenseAmount = 0;
         for (const expense of expenses) {
             createListItem(expense);
-            totalExpenseAmount += parseFloat(expense.Amount);
         }
 
-        const TotalExp = document.getElementById('tExp');
-        if (TotalExp) {
-           TotalExp.textContent=`Total Expense =${totalExpenseAmount} Rs`
-        }
 
     } catch (err) {
         console.log(err);
@@ -244,6 +255,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const LoginButton = document.getElementById('login-btn');
     const LogOutButton = document.getElementById('logOut-btn');
     const leaderButton = document.getElementById('leader-b');
+    const DownloadButton = document.getElementById('Download-b');
   
     // Update button text based on premium status
     if (isPremiumUser) {
@@ -251,10 +263,13 @@ document.addEventListener('DOMContentLoaded', async function() {
           razorPayButton.disabled = true;
             
           leaderButton.textContent='Show Leader Board';
+          DownloadButton.textContent='Download';
+
     } else {
       razorPayButton.textContent = 'Buy Premium';
       razorPayButton.disabled = false;
       leaderButton.disabled=true;
+      DownloadButton.disabled=true;
     }
     // Update button text based on premium status
     if (Username) {

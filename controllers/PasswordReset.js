@@ -9,11 +9,11 @@ exports.forgotpassword= async (req, res, next) => {
     try {
         const Email= req.body.Email; 
         console.log(Email);
+        const id = uuid.v4();
 
         const user = await Users.findOne({where : { Email:Email }});
         if(user){
-            const id = uuid.v4();
-           await Forgotpassword.create({ id , IsActive: true })
+           await Forgotpassword.create({ id:id , IsActive: true })
                 
             }
 
@@ -73,11 +73,12 @@ exports.resetPassword = async (req, res) => {
 
         if (forgotpasswordrequest) {
             await forgotpasswordrequest.update({ IsActive: false });
-            res.redirect(`http://localhost:5000/newPassword.html?id=${id}`);
+            res.redirect(`http://localhost:5000/html/newPassword.html?id=${id}`);
         } else {
             res.status(404).send("Reset request not found");
         }
-    } catch (error) {
+    } catch (err) {
+        console.log(err)
         res.status(500).send("Internal Server Error");
     }
 };
@@ -91,28 +92,28 @@ exports.resetPassword = async (req, res) => {
 exports.updatePassword=async (req, res, next) => {
     try {
         const Password= req.body.Password;
-        const id=req.params
+        const id=req.params.updateid
 
         
         const UpdateUserPass = await Forgotpassword.findOne({
              where: { id:id },
              include:Users});
-        if (UpdateUserPass&& UpdateUserPass.Users) {
+        if (UpdateUserPass) {
           
         }
         const saltrounds=10;
         bcrypt.hash(Password,saltrounds,async(err,hash)=>{
-          const UpdateUser=await Users.update({
-
-           Password:hash
-           })
+          const UpdateUser=  await Users.update(
+                { Password: hash },
+                { where: { id: UpdateUserPass.UserId } }
+            );
            console.log(err);
            res.status(201).json({ UpdatedPass: UpdateUser});
 
         })
        
       } catch (err) {
-        console.error('Error adding expense:', err);
+        console.error( err);
         res.status(500).json({ error: 'Internal Server Error' });
       }
 }

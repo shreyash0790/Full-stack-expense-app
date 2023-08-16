@@ -36,7 +36,7 @@ const updateid = new URLSearchParams(window.location.search).get('id');
         if (response.status === 201) {
           console.log(response)
           alert("Password Reset Successfully ");
-            window.location.href = 'login.html'
+            window.location.href = 'http://localhost:5000/html/login.html'
         }
 
     } catch (err) {
