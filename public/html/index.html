@@ -43,13 +43,14 @@
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-md-5 col-lg-5 col-xl-5">
           <div class="text-center list-container ">
-            <div class="card  text-white" style="border-radius: 2rem; ">
+            <div class="card  text-white" style="border-radius: 2rem;width: 120%; margin: 0 auto; ">
               <div class="card-body p-3 text-center">
 
                 <div class="mb-md-5 mt-md-4 pb-5">
                   <h3 class="list-title fw-bold text-primary expt " style="font-size :20px;"> Daily Expense List</h3>
                   <div class="table-responsive">
-                    <table class="table table-bordered styled-table">
+                    <table class="table table-bordered styled-table" id="DailyEx">
+                      <div id="daily-ex">
                       <thead>
                         <tr>
                           <th style="color: white; font-size: medium; background-color: black; text-align: center; font-size:medium;">Date</th>
@@ -58,9 +59,9 @@
                           <th style="color: white; font-size: medium; background-color: black; text-align: center;">Category</th>
                           <th style="color: white; font-size: medium; background-color: black; text-align: center;">Income</th>
                           <th style="color: white; font-size: medium; background-color: black; text-align: center;">Edit/Delete</th>
-
                         </tr>
                       </thead>
+                    </div>
                     </table>
                   </div>
                 </div>
@@ -70,23 +71,26 @@
             </div>
           </div><br>
           <div class="text-center list-container ">
-            <div class="card  text-white" style="border-radius: 2rem; ">
+            <div class="card  text-white" style="border-radius: 2rem; width: 110%; margin: 0 auto; ">
               <div class="card-body p-3 text-center">
 
                 <div class="mb-md-5 mt-md-4 pb-5">
                   <h3 class="list-title fw-bold text-primary expt " style="font-size :20px;"> Monthly Expense List</h3>
                   <div class="table-responsive">
-                    <table class="table table-bordered styled-table">
+                    <table class="table table-bordered styled-table" id="MonthlyEx">
+                      <div id="monthly-ex">
                       <thead>
                         <tr>
                           <th style="color: white; font-size: medium; background-color: black; text-align: center;">Month</th>
-                          <th style="color: white; font-size: medium; background-color: black; text-align: center;"> Total Amount</th>
+                          <th style="color: white; font-size: medium; background-color: black; text-align: center;"> Expense(Monthly)</th>
                           
                           <th style="color: white; font-size: medium; background-color: black; text-align: center;">Income(Monthly)</th>
+                          <th style="color: white; font-size: medium; background-color: black; text-align: center;">Savings</th>
 
 
                         </tr>
                       </thead>
+                    </div>
                     </table>
                   </div>
                 </div>
@@ -96,30 +100,7 @@
             </div>
           </div>
           <br>
-          <div class="text-center list-container ">
-            <div class="card  text-white" style="border-radius: 2rem; ">
-              <div class="card-body p-3 text-center">
-
-                <div class="mb-md-5 mt-md-4 pb-5">
-                  <h3 class="list-title fw-bold text-primary expt " style="font-size :20px;"> Yearly Expense List</h3>
-                  <div class="table-responsive">
-                    <table class="table table-bordered styled-table">
-                      <thead>
-                        <tr>
-                          <th style="color: white; font-size: medium; background-color: black; text-align: center; ">Year</th>
-                          <th style="color: white; font-size: medium; background-color: black; text-align: center; ">Total amount</th>
-                          <th style="color: white; font-size: medium; background-color: black; text-align: center;">Income(Yearly)</th>
-
-                        </tr>
-                      </thead>
-                    </table>
-                  </div>
-                </div>
-                
-              
-              </div>
-            </div>
-          </div>
+         
         </div>
   
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
@@ -139,6 +120,13 @@
                   <label class="form-label" for="amount"></label>
                 </div>
 
+                  <!-- amount -->
+                  <div class="form-outline mb-0">
+                    <input type="number" id="Income" class="form-control form-control-lg inputt"
+                      placeholder="Enter Income Amount" />
+                    <label class="form-label" for="Income"></label>
+                  </div>
+
                 <!-- text -->
                 <div class="form-outline mb-0">
                   <input type="text" id="dis" class="form-control form-control-lg inputt"
@@ -154,7 +142,7 @@
                     <option value="Travel">Travel</option>
                     <option value="Education">Education</option>
                     <option value="Others">Others</option>
-
+  
 
                   </select>
                   <label for="cat" class="catt"> Choose Category </label>
@@ -175,10 +163,18 @@
 
               <div class="list-container ">
                 <div class="text-center text-lg-start mt-2 pt-2">
+                  <div class="button-container"></div>
                 <button type="submit" class="btn btn-primary btn-lg  expp "
                 style="padding-left: 1 rem; padding-right: 1 rem ;color: #f5fdf8; font-weight: bold; font-size: 16px;"
                 id="Download-b">
-                Download Expense (Premium)</button><br><br>
+                Download Report (Premium)</button><br>  
+                  <div class="text-center text-lg-start mt-2 pt-2">
+                  <button type="submit" class="btn btn-primary btn-lg  expp "
+                  style="padding-left: 1 rem; padding-right: 1 rem ;color: #f5fdf8; font-weight: bold; font-size: 16px;"
+                  id="Download-old">
+                  Show Old Reports (Premium)</button>
+                  </div>
+                  <br><br>
               
 
                   <button type="submit" class="btn btn-success btn-lg  expp "

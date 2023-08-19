@@ -22,6 +22,7 @@ exports.addExpense=async (req, res, next) => {
     const Amount = parseFloat(req.body.Amount);
         const Description = req.body.Description;
         const Category = req.body.Category;
+        const Income=req.body.Income
     await sequelize.transaction(async (t) => {
          
         // Create the new expense
@@ -29,6 +30,7 @@ exports.addExpense=async (req, res, next) => {
             Amount: Amount,
             Description: Description,
             Category: Category,
+            Income:Income,
             UserId: req.users.id
         }, { transaction: t });
 
@@ -90,6 +92,7 @@ exports.editExp = async (req, res, next) => {
     const updatedAmount = parseFloat(req.body.Amount);
     const updatedDescription = req.body.Description;
     const updatedCategory = req.body.Category;
+    const updatedIncome=req.body.Income
 
     await sequelize.transaction(async (t) => {
         const expense = await Expense.findOne({
@@ -108,6 +111,7 @@ exports.editExp = async (req, res, next) => {
         expense.Amount = updatedAmount;
         expense.Description = updatedDescription;
         expense.Category = updatedCategory;
+        expense.Income=updatedIncome
 
         // Update the user's total expense
         const user = expense.User;
@@ -127,3 +131,20 @@ exports.editExp = async (req, res, next) => {
     res.status(500).json({ error: 'Internal Server Error' });
 }
 };
+
+
+exports.download=async (req, res, next) => {
+    try {
+    const Expenses = await Expense.findAll({where :{userId:req.users.id}});
+
+    res.status(200).json({Expenses: Expenses });
+    
+      } catch (err) {
+        console.log(err)
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    
+}
+
+
+

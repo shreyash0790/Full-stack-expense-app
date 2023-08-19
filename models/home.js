@@ -20,5 +20,10 @@ Category:{
   type: Sequelize.STRING,
   allowNull:false
  },
+ Income:{
+  type: Sequelize.FLOAT,
+  allowNull: false,
+ },
+
 })
 module.exports=Expense;
