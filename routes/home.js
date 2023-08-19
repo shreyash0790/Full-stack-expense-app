@@ -5,6 +5,7 @@ const UserAuthen=require('../middleware/auth');
 
 router.get('/GetExpense', UserAuthen.Authentication,Homecontroller.getExpense);
 
+router.get('/download',UserAuthen.Authentication,Homecontroller.download)
 
 router.post('/AddExpense',UserAuthen.Authentication, Homecontroller.addExpense);
 

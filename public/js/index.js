@@ -368,7 +368,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   const LogOutButton = document.getElementById('logOut-btn');
   const leaderButton = document.getElementById('leader-b');
   const DownloadButton = document.getElementById('Download-b');
-  const DownloadButtonold = document.getElementById('Download-bold');
+  const DownloadButtonold = document.getElementById('Download-old');
 
   // Update button text based on premium status
   if (isPremiumUser) {

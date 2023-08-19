@@ -1,6 +1,8 @@
 const Expense = require('../models/home');
 const Users = require('../models/sign');
 const sequelize=require('../util/database');
+const AWS=require('aws-sdk');
+require('dotenv').config();
 
 
  
@@ -136,8 +138,11 @@ exports.editExp = async (req, res, next) => {
 exports.download=async (req, res, next) => {
     try {
     const Expenses = await Expense.findAll({where :{userId:req.users.id}});
-
-    res.status(200).json({Expenses: Expenses });
+    const dataTostring=JSON.stringify(Expenses)
+    const filename='Expense.txt';
+    const fileUrl=UploadtoS3(dataTostring,filename)
+    res.status(200).json({fileUrl:fileUrl,success:true});
+    console.log(fileUrl);
     
       } catch (err) {
         console.log(err)
@@ -148,3 +153,31 @@ exports.download=async (req, res, next) => {
 
 
 
+function UploadtoS3(data,filename){
+
+let s3bucket=new AWS.S3({
+    Useraccesskey:process.env.IAM_ACCESS_KEY,
+    secretkey:process.env.IAM_SECRET_KEY,
+})
+
+s3bucket.createBucket(()=>{
+    var params={
+        Bucket:process.env.BUCKET_NAME,
+        Key:filename,
+        Body:data
+
+    }
+  
+    s3bucket.upload(params, (err,res)=>{
+        if(err){
+            console.log('error in uploading',err)
+        }
+        else{
+            console.log('upload sucessfull',res)
+        }
+
+    })
+})
+
+
+}

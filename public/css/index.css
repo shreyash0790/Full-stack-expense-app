@@ -16,6 +16,11 @@ h1.container.text-center.my-3.fw-bold.text-success{
 display: flex;
 gap: 20px; 
 }
+.button-container1 {
+  font-family: 'Comic Sans MS';
+  display: flex;
+  gap: 10px; /* Adjust the gap value as needed */
+}
 .reduce-margin {
 margin: 0; /* Set margin to 0 to remove vertical spacing */
 }
