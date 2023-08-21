@@ -6,6 +6,13 @@ const incomeInput = document.getElementById('Income');
 const tableDaily = document.getElementById('DailyEx')
 const tableMonthly = document.getElementById('MonthlyEx')
 
+const razorPayButton = document.getElementById('razorPay');
+const LoginButton = document.getElementById('login-btn');
+const LogOutButton = document.getElementById('logOut-btn');
+const leaderButton = document.getElementById('leader-b');
+const DownloadButton = document.getElementById('Download-b');
+const DownloadButtonold = document.getElementById('Download-old');
+
 myForm.addEventListener('submit', onSubmit);
 
 function onSubmit(e) {
@@ -363,12 +370,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   const Username = response.data.Username
 
   // Select the button element
-  const razorPayButton = document.getElementById('razorPay');
-  const LoginButton = document.getElementById('login-btn');
-  const LogOutButton = document.getElementById('logOut-btn');
-  const leaderButton = document.getElementById('leader-b');
-  const DownloadButton = document.getElementById('Download-b');
-  const DownloadButtonold = document.getElementById('Download-old');
+
 
   // Update button text based on premium status
   if (isPremiumUser) {
@@ -377,7 +379,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     leaderButton.textContent = 'Show Leader Board';
     DownloadButton.textContent = 'Download Report';
-    DownloadButtonold.textContent='Download Old reports'
+    DownloadButtonold.textContent='Download Old Reports'
 
   } else {
     razorPayButton.textContent = 'Buy Premium';
@@ -426,15 +428,44 @@ document.getElementById('leader-b').onclick = async function (e) {
     leaderList.style.display = 'block';
   });
 }
+DownloadButtonold.onclick=async function (e){
+  e.preventDefault()
+  const token = localStorage.getItem('token');
+  const response = await axios.get('http://localhost:5000/download/reports', { headers: { "Authorization": token } });
+console.log(response)
+reportList.innerHTML = '';
 
-document.getElementById('Download-b').onclick= async function (e){
+response.data.reports.forEach(entry => {
+  const reportList = document.getElementById('oldReports');
+  reportList.innerHTML = '';
+  li.className = 'list-group-item';
+  li.textContent = entry;
+  reportList.appendChild(li);
+  reportList.style.display = 'block';
+})
+}
+
+
+DownloadButton.onclick= async function (e){
   e.preventDefault()
   const token = localStorage.getItem('token');
   const response = await axios.get('http://localhost:5000/download', { headers: { "Authorization": token } });
   console.log(response)
-
+if(response.status===200){
+    const a = document.createElement("a");
+    a.href =response.data.fileUrl ;
+    a.download ='Expense Report.csv'
+    a.click();
+}
+else{
+  throw new Error(response.data.message)
+}
 
 }
+
+
+
+
 
 
 

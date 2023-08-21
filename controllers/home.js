@@ -1,7 +1,7 @@
 const Expense = require('../models/home');
 const Users = require('../models/sign');
 const sequelize=require('../util/database');
-const AWS=require('aws-sdk');
+const S3services=require('../services/S3services');
 require('dotenv').config();
 
 
@@ -139,45 +139,35 @@ exports.download=async (req, res, next) => {
     try {
     const Expenses = await Expense.findAll({where :{userId:req.users.id}});
     const dataTostring=JSON.stringify(Expenses)
-    const filename='Expense.txt';
-    const fileUrl=UploadtoS3(dataTostring,filename)
+    const UserId=req.users.id
+    const filename=`Expense${UserId}/${new Date()}`;
+    const fileUrl= await S3services.UploadtoS3(dataTostring,filename)
+    await Users.create(
+        { ExpenseReports: sequelize.literal(fileUrl) },
+        { where: { id: req.users.id }}
+    );
     res.status(200).json({fileUrl:fileUrl,success:true});
-    console.log(fileUrl);
+    
     
       } catch (err) {
         console.log(err)
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error:err });
       }
     
 }
 
-
-
-function UploadtoS3(data,filename){
-
-let s3bucket=new AWS.S3({
-    Useraccesskey:process.env.IAM_ACCESS_KEY,
-    secretkey:process.env.IAM_SECRET_KEY,
-})
-
-s3bucket.createBucket(()=>{
-    var params={
-        Bucket:process.env.BUCKET_NAME,
-        Key:filename,
-        Body:data
-
-    }
-  
-    s3bucket.upload(params, (err,res)=>{
-        if(err){
-            console.log('error in uploading',err)
-        }
-        else{
-            console.log('upload sucessfull',res)
-        }
-
-    })
-})
-
+exports.downloadOldreports=async   (req, res, next) => {
+    try {
+        const User=await Users.findOne({where :{userId:req.users.id}})
+         const report=User.ExpenseReports
+        res.status(200).json({reports:report});
+          } catch (err) {
+            console.log(err)
+            res.status(500).json({ error:err });
+          }
 
 }
+
+
+
+
