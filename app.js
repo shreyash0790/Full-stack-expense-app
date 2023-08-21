@@ -20,6 +20,7 @@ const Expense=require('./models/home')
 const User=require('./models/sign')
 const Orders=require('./models/Orders');
 const PasswordReset=require('./models/PasswordReset')
+const ExpenseReport=require('./models/Reports')
 
 
 
@@ -52,11 +53,14 @@ Orders.belongsTo(User);
 User.hasMany(PasswordReset);
 PasswordReset.belongsTo(User);
 
+User.hasMany(ExpenseReport);
+ExpenseReport.belongsTo(User);
+
 
 
 
 sequelize
-.sync({force:true})
+.sync()
 .then(result=>{
     app.listen(5000, () => {
         console.log(`Server is running on port 5000`);

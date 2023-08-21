@@ -29,6 +29,7 @@ Password:{
  TotalExpense:{
   type:Sequelize.FLOAT,
   defaultValue:0
- }
+ },
+
 })
 module.exports=User;

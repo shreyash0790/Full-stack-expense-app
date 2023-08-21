@@ -1,5 +1,6 @@
 const Expense = require('../models/home');
 const Users = require('../models/sign');
+const Reports = require('../models/Reports');
 const sequelize=require('../util/database');
 const S3services=require('../services/S3services');
 require('dotenv').config();
@@ -142,11 +143,10 @@ exports.download=async (req, res, next) => {
     const UserId=req.users.id
     const filename=`Expense${UserId}/${new Date()}`;
     const fileUrl= await S3services.UploadtoS3(dataTostring,filename)
-    await Users.create(
-        { ExpenseReports: sequelize.literal(fileUrl) },
-        { where: { id: req.users.id }}
-    );
-    res.status(200).json({fileUrl:fileUrl,success:true});
+    await Reports.create({
+        ExpenseReport:fileUrl,UserId: req.users.id
+    })
+    res.status(200).json({ fileUrl:fileUrl });
     
     
       } catch (err) {
@@ -158,12 +158,12 @@ exports.download=async (req, res, next) => {
 
 exports.downloadOldreports=async   (req, res, next) => {
     try {
-        const User=await Users.findOne({where :{userId:req.users.id}})
-         const report=User.ExpenseReports
-        res.status(200).json({reports:report});
+        const Report=await Reports.findOne({where :{UserId:req.users.id}})
+         const ExpenseReport=Report.ExpenseReport
+        res.status(200).json({reports:ExpenseReport});
           } catch (err) {
             console.log(err)
-            res.status(500).json({ error:err });
+            res.status(404).json({ error:err });
           }
 
 }

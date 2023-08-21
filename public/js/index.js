@@ -449,7 +449,7 @@ response.data.reports.forEach(entry => {
 DownloadButton.onclick= async function (e){
   e.preventDefault()
   const token = localStorage.getItem('token');
-  const response = await axios.get('http://localhost:5000/download', { headers: { "Authorization": token } });
+  const response = await axios.get('http://localhost:5000/download/reports', { headers: { "Authorization": token } });
   console.log(response)
 if(response.status===200){
     const a = document.createElement("a");
