@@ -156,14 +156,14 @@ exports.download=async (req, res, next) => {
     
 }
 
-exports.downloadOldreports=async   (req, res, next) => {
+exports.downloadOldreports=async  (req, res, next) => {
     try {
-        const Report=await Reports.findOne({where :{UserId:req.users.id}})
-         const ExpenseReport=Report.ExpenseReport
-        res.status(200).json({reports:ExpenseReport});
+        const Report=await Reports.findAll({where :{UserId:req.users.id}})
+
+        res.status(200).json({reports:Report});
           } catch (err) {
             console.log(err)
-            res.status(404).json({ error:err });
+            res.status(500).json({ error:err });
           }
 
 }

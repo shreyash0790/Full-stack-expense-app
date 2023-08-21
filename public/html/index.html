@@ -51,22 +51,29 @@
                   <div class="table-responsive">
                     <table class="table table-bordered styled-table" id="DailyEx">
                       <div id="daily-ex">
-                      <thead>
-                        <tr>
-                          <th style="color: white; font-size: medium; background-color: black; text-align: center; font-size:medium;">Date</th>
-                          <th style="color: white; font-size: medium; background-color: black; text-align: center;">Amount</th>
-                          <th style="color: white; font-size: medium; background-color: black; text-align: center;">Description</th>
-                          <th style="color: white; font-size: medium; background-color: black; text-align: center;">Category</th>
-                          <th style="color: white; font-size: medium; background-color: black; text-align: center;">Income</th>
-                          <th style="color: white; font-size: medium; background-color: black; text-align: center;">Edit/Delete</th>
-                        </tr>
-                      </thead>
-                    </div>
+                        <thead>
+                          <tr>
+                            <th
+                              style="color: white; font-size: medium; background-color: black; text-align: center; font-size:medium;">
+                              Date</th>
+                            <th style="color: white; font-size: medium; background-color: black; text-align: center;">
+                              Amount</th>
+                            <th style="color: white; font-size: medium; background-color: black; text-align: center;">
+                              Description</th>
+                            <th style="color: white; font-size: medium; background-color: black; text-align: center;">
+                              Category</th>
+                            <th style="color: white; font-size: medium; background-color: black; text-align: center;">
+                              Income</th>
+                            <th style="color: white; font-size: medium; background-color: black; text-align: center;">
+                              Edit/Delete</th>
+                          </tr>
+                        </thead>
+                      </div>
                     </table>
                   </div>
                 </div>
-                
-              
+
+
               </div>
             </div>
           </div><br>
@@ -79,117 +86,120 @@
                   <div class="table-responsive">
                     <table class="table table-bordered styled-table" id="MonthlyEx">
                       <div id="monthly-ex">
-                      <thead>
-                        <tr>
-                          <th style="color: white; font-size: medium; background-color: black; text-align: center;">Month</th>
-                          <th style="color: white; font-size: medium; background-color: black; text-align: center;"> Expense(Monthly)</th>
-                          
-                          <th style="color: white; font-size: medium; background-color: black; text-align: center;">Income(Monthly)</th>
-                          <th style="color: white; font-size: medium; background-color: black; text-align: center;">Savings</th>
+                        <thead>
+                          <tr>
+                            <th style="color: white; font-size: medium; background-color: black; text-align: center;">
+                              Month</th>
+                            <th style="color: white; font-size: medium; background-color: black; text-align: center;">
+                              Expense(Monthly)</th>
+
+                            <th style="color: white; font-size: medium; background-color: black; text-align: center;">
+                              Income(Monthly)</th>
+                            <th style="color: white; font-size: medium; background-color: black; text-align: center;">
+                              Savings</th>
 
 
-                        </tr>
-                      </thead>
-                    </div>
+                          </tr>
+                        </thead>
+                      </div>
                     </table>
                   </div>
                 </div>
-                
-              
+
+
               </div>
             </div>
           </div>
           <br>
-         
+
         </div>
-  
-            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-              <form id="my-form" class="custom-bg-color shadow p-4">
-                <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                  <div class="button-container">
-                    <h1 class="container text-center my-3  text-white" style="font-size: 25px;">Enter Expense Details
-                    </h1>
-                  </div>
 
-                </div><br>
+        <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+          <form id="my-form" class="custom-bg-color shadow p-4">
+            <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+              <div class="button-container">
+                <h1 class="container text-center my-3  text-white" style="font-size: 25px;">Enter Expense Details
+                </h1>
+              </div>
 
-                <!-- amount -->
-                <div class="form-outline mb-0">
-                  <input type="number" id="amount" class="form-control form-control-lg inputt"
-                    placeholder="Enter Expense Amount" />
-                  <label class="form-label" for="amount"></label>
-                </div>
+            </div><br>
 
-                  <!-- amount -->
-                  <div class="form-outline mb-0">
-                    <input type="number" id="Income" class="form-control form-control-lg inputt"
-                      placeholder="Enter Income Amount" />
-                    <label class="form-label" for="Income"></label>
-                  </div>
+            <!-- amount -->
+            <div class="form-outline mb-0">
+              <input type="number" id="amount" class="form-control form-control-lg inputt"
+                placeholder="Enter Expense Amount" />
+              <label class="form-label" for="amount"></label>
+            </div>
 
-                <!-- text -->
-                <div class="form-outline mb-0">
-                  <input type="text" id="dis" class="form-control form-control-lg inputt"
-                    placeholder="Enter Description" />
-                  <label class="form-label" for="dis"></label>
-                </div>
-                <!-- category -->
-                <div class="form-floating my-0">
-                  <select class="form-select inputt" id="cat" aria-label="Floating label select example">
-                    <option selected></option>
-                    <option value="Food">Food</option>
-                    <option value="Rent">Rent</option>
-                    <option value="Travel">Travel</option>
-                    <option value="Education">Education</option>
-                    <option value="Others">Others</option>
-  
+            <!-- amount -->
+            <div class="form-outline mb-0">
+              <input type="number" id="Income" class="form-control form-control-lg inputt"
+                placeholder="Enter Income Amount" />
+              <label class="form-label" for="Income"></label>
+            </div>
 
-                  </select>
-                  <label for="cat" class="catt"> Choose Category </label>
-                </div>
+            <!-- text -->
+            <div class="form-outline mb-0">
+              <input type="text" id="dis" class="form-control form-control-lg inputt" placeholder="Enter Description" />
+              <label class="form-label" for="dis"></label>
+            </div>
+            <!-- category -->
+            <div class="form-floating my-0">
+              <select class="form-select inputt" id="cat" aria-label="Floating label select example">
+                <option selected></option>
+                <option value="Food">Food</option>
+                <option value="Rent">Rent</option>
+                <option value="Travel">Travel</option>
+                <option value="Education">Education</option>
+                <option value="Others">Others</option>
 
+
+              </select>
+              <label for="cat" class="catt"> Choose Category </label>
+            </div>
 
 
 
-                <div class="text-center text-lg-start mt-2 pt-2">
 
-                  <button type="submit" class="btn btn-success btn-lg  expp "
-                    style="padding-left: 1 rem; padding-right: 1 rem ;color: #f5fdf8; font-weight: bold; font-size: 16px;">Add
-                    Expense</button>
-                </div>
+            <div class="text-center text-lg-start mt-2 pt-2">
+
+              <button type="submit" class="btn btn-success btn-lg  expp "
+                style="padding-left: 1 rem; padding-right: 1 rem ;color: #f5fdf8; font-weight: bold; font-size: 16px;">Add
+                Expense</button>
+            </div>
 
 
-              </form><br>
+          </form><br>
 
-              <div class="list-container ">
-                <div class="text-center text-lg-start mt-2 pt-2">
-                  <div class="button-container"></div>
-                <button type="submit" class="btn btn-primary btn-lg  expp "
+          <div class="list-container ">
+            <div class="text-center text-lg-start mt-2 pt-2">
+              <div class="button-container"></div>
+              <button type="submit" class="btn btn-primary btn-lg  expp "
                 style="padding-left: 1 rem; padding-right: 1 rem ;color: #f5fdf8; font-weight: bold; font-size: 16px;"
                 id="Download-b">
-                Download Report (Premium)</button><br>  
-                  <div class="text-center text-lg-start mt-2 pt-2">
-                  <button type="submit" class="btn btn-primary btn-lg  expp "
+                Download Report (Premium)</button><br><br>
+            
+                <button type="submit" class="btn btn-primary btn-lg  expp "
                   style="padding-left: 1 rem; padding-right: 1 rem ;color: #f5fdf8; font-weight: bold; font-size: 16px;"
                   id="Download-old">
                   Show Old Reports (Premium)</button>
-                  </div>
-                  <br><br>
-              
-
-                  <button type="submit" class="btn btn-success btn-lg  expp "
-                    style="padding-left: 1 rem; padding-right: 1 rem ;color: #f5fdf8; font-weight: bold; font-size: 16px;"
-                    id="leader-b">
-                    Leader board (Premium )</button>
-                  <ul class="list-group" id="leader" style="display: none;">
-                    <li class="list-group-item"></li>
-                  </ul>
-                </div>
-              </div>
-        </div>
+                <ul class="list-group" id="oldReports" style="display: none;">
+                  <li class="list-group1"></li>
+                </ul>
+              <br><br>
+              <button type="submit" class="btn btn-success btn-lg  expp "
+                style="padding-left: 1 rem; padding-right: 1 rem ;color: #f5fdf8; font-weight: bold; font-size: 16px;"
+                id="leader-b">
+                Leader board (Premium )</button>
+              <ul class="list-group" id="leader" style="display: none;">
+                <li class="list-group-item"></li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+    </div>
     </div>
 
     </div>

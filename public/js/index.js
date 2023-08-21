@@ -379,7 +379,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     leaderButton.textContent = 'Show Leader Board';
     DownloadButton.textContent = 'Download Report';
-    DownloadButtonold.textContent='Download Old Reports'
+    DownloadButtonold.textContent='Show Old Reports'
 
   } else {
     razorPayButton.textContent = 'Buy Premium';
@@ -428,28 +428,12 @@ document.getElementById('leader-b').onclick = async function (e) {
     leaderList.style.display = 'block';
   });
 }
-DownloadButtonold.onclick=async function (e){
-  e.preventDefault()
-  const token = localStorage.getItem('token');
-  const response = await axios.get('http://localhost:5000/download/reports', { headers: { "Authorization": token } });
-console.log(response)
-reportList.innerHTML = '';
-
-response.data.reports.forEach(entry => {
-  const reportList = document.getElementById('oldReports');
-  reportList.innerHTML = '';
-  li.className = 'list-group-item';
-  li.textContent = entry;
-  reportList.appendChild(li);
-  reportList.style.display = 'block';
-})
-}
 
 
 DownloadButton.onclick= async function (e){
   e.preventDefault()
   const token = localStorage.getItem('token');
-  const response = await axios.get('http://localhost:5000/download/reports', { headers: { "Authorization": token } });
+  const response = await axios.get('http://localhost:5000/download', { headers: { "Authorization": token } });
   console.log(response)
 if(response.status===200){
     const a = document.createElement("a");
@@ -462,6 +446,38 @@ else{
 }
 
 }
+DownloadButtonold.onclick=async function (e){
+  e.preventDefault()
+  const token = localStorage.getItem('token');
+  const response = await axios.get('http://localhost:5000/reports', { headers: { "Authorization": token } });
+console.log(response)
+const OldRep=response.data.reports
+
+const reportList = document.getElementById('oldReports');
+reportList.innerHTML = '';
+reportList.style.display = 'none';
+OldRep.forEach(entry => {
+  const li=document.createElement('li');
+  const link = document.createElement('a');
+
+  li.className = 'list-group1';
+  
+
+  link.textContent = `Report : ${entry.ExpenseReport}`;
+  link.href = `${entry.ExpenseReport}`; 
+  link.download="Expense Report.csv";
+
+  li.addEventListener('click', () => {
+    link.click(); 
+  });
+
+  li.appendChild(link);
+  reportList.appendChild(li);
+  reportList.style.display = 'block';
+
+})
+}
+
 
 
 

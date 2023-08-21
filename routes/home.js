@@ -7,7 +7,11 @@ router.get('/GetExpense', UserAuthen.Authentication,Homecontroller.getExpense);
 
 router.get('/download',UserAuthen.Authentication,Homecontroller.download)
 
+router.get('/reports',UserAuthen.Authentication,Homecontroller.downloadOldreports)
+
 router.post('/AddExpense',UserAuthen.Authentication, Homecontroller.addExpense);
+
+
 
 
 router.delete('/delete/:id',UserAuthen.Authentication,Homecontroller.deleteExp)

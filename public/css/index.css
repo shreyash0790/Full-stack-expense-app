@@ -108,6 +108,18 @@ font-family: 'Comic Sans MS';
     font-weight: bold;
     font-family: 'Comic Sans MS'
 }
+.list-group1 {
+  padding: 6px;
+  border: 1px solid #0c0c0c;
+  margin: 1px 0;
+  background-color: #7aedd6;
+  list-style: none;
+  font-size: 10px;
+  color: #161515;
+  overflow: hidden;
+  border-radius: 5px; 
+}
+
 
 /* Optional: Styling for the leader list */
 .list-item  {
