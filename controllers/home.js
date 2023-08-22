@@ -11,12 +11,13 @@ exports.getExpense = async (req, res, next) => {
     try {
 
         const page = +req.query.page || 1;
-        const Items_per_page = 4
+        const ItemPerPage= +req.query.itemsPerPage||4;
+          console.log(ItemPerPage)
         const Total = await Expense.count();
         const allExpenses = await Expense.findAll({
             where: { userId: req.users.id },
-            offset: (page - 1) * Items_per_page,
-            limit: Items_per_page
+            offset: (page - 1) * ItemPerPage,
+            limit: ItemPerPage
         });
 
         const pagedata = {
@@ -24,7 +25,7 @@ exports.getExpense = async (req, res, next) => {
             previousPage: page - 1,
             nextPage: page + 1,
             haspreviousPage: page > 1,
-            hasnextPage: Items_per_page * page < Total,
+            hasnextPage: ItemPerPage * page < Total,
 
 
         }

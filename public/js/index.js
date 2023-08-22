@@ -306,16 +306,33 @@ async function calculateTotal(month) {
 
   }
 }
+const itemsPerPageSelect = document.getElementById('itemsPerPage');
+const applyItemsPerPageBtn = document.getElementById('applyItemsPerPage');
+
+applyItemsPerPageBtn.addEventListener('click', () => {
+  const selectedItemsPerPage = parseInt(itemsPerPageSelect.value);
+  localStorage.setItem('itemsPerPage', selectedItemsPerPage);
+  console.log(localStorage.getItem('itemsPerPage'))
+  getExpenses(1,localStorage.getItem('itemsPerPage'));
+});
 
   window.addEventListener('DOMContentLoaded',  () => {
-    getExpenses(1);
+    if (!localStorage.getItem('itemsPerPage')) {
+      localStorage.setItem('itemsPerPage', '4');
+      getExpenses(1,4)
+    }
+    else{
+    getExpenses(1,localStorage.getItem('itemsPerPage'));
+    }
 
   });
-async function getExpenses(page) {
+
+
+async function getExpenses(page,itemsPerPage) {
   try {
     const token = localStorage.getItem('token');
  
-    const response = await axios.get(`http://localhost:5000/GetExpense?page=${page}`, { headers: { "Authorization": token } });
+    const response = await axios.get(`http://localhost:5000/GetExpense?page=${page}&itemsPerPage=${itemsPerPage}`, { headers: { "Authorization": token } });
     const expenses = response.data.Expenses;
     const pagedata = response.data.pagedata;
     console.log(pagedata);
