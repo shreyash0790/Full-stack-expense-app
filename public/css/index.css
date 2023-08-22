@@ -127,4 +127,6 @@ font-family: 'Comic Sans MS';
     margin: 0;
     max-width: 300px; /* Adjust as needed */
 }
-
+.page{
+  display: inline-block;
+}

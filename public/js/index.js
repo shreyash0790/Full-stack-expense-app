@@ -12,8 +12,11 @@ const LogOutButton = document.getElementById('logOut-btn');
 const leaderButton = document.getElementById('leader-b');
 const DownloadButton = document.getElementById('Download-b');
 const DownloadButtonold = document.getElementById('Download-old');
+const pagination=document.getElementById('pagination');
 
 myForm.addEventListener('submit', onSubmit);
+
+
 
 function onSubmit(e) {
   e.preventDefault();
@@ -304,23 +307,61 @@ async function calculateTotal(month) {
   }
 }
 
-window.addEventListener('DOMContentLoaded', async () => {
+  window.addEventListener('DOMContentLoaded',  () => {
+    getExpenses(1);
 
+  });
+async function getExpenses(page) {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get('http://localhost:5000/GetExpense', { headers: { "Authorization": token } });
+ 
+    const response = await axios.get(`http://localhost:5000/GetExpense?page=${page}`, { headers: { "Authorization": token } });
     const expenses = response.data.Expenses;
+    const pagedata = response.data.pagedata;
+    console.log(pagedata);
+    tableDaily.innerHTML = ''
 
     for (const expense of expenses) {
-      createListItem(expense)
+      createListItem(expense);
     }
-    
-
-
+    showpagination(pagedata);
   } catch (err) {
     console.log(err);
   }
-});
+}
+
+
+function showpagination({
+  currentPage,
+  previousPage,
+  nextPage,
+  haspreviousPage,
+  hasnextPage,
+}) {
+  pagination.innerHTML = '';
+
+  if (haspreviousPage) {
+    const pagebtn0 = createPageButton(previousPage);
+    pagination.appendChild(pagebtn0);
+  }
+
+  const pagebtn1 = createPageButton(currentPage);
+  pagination.appendChild(pagebtn1);
+
+  if (hasnextPage) {
+    const pagebtn2 = createPageButton(nextPage);
+    pagination.appendChild(pagebtn2);
+  }
+}
+
+function createPageButton(pageNumber) {
+  const pageButton = document.createElement('button');
+  pageButton.textContent = `${pageNumber}`;
+  pageButton.className = 'btn btn-primary btn-sm small-button';
+  pageButton.style.marginRight = '10px';
+  pageButton.addEventListener('click', () => getExpenses(pageNumber));
+  return pageButton;
+}
 
 function clearFields() {
   amountInput.value = '';
