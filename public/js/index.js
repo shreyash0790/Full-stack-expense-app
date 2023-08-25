@@ -312,18 +312,16 @@ const applyItemsPerPageBtn = document.getElementById('applyItemsPerPage');
 applyItemsPerPageBtn.addEventListener('click', () => {
   const selectedItemsPerPage = parseInt(itemsPerPageSelect.value);
   localStorage.setItem('itemsPerPage', selectedItemsPerPage);
-  console.log(localStorage.getItem('itemsPerPage'))
   getExpenses(1,localStorage.getItem('itemsPerPage'));
 });
 
   window.addEventListener('DOMContentLoaded',  () => {
     if (!localStorage.getItem('itemsPerPage')) {
-      localStorage.setItem('itemsPerPage', '4');
-      getExpenses(1,4)
+      localStorage.setItem('itemsPerPage', 4);
+      getExpenses(1,localStorage.getItem('itemsPerPage'))
     }
-    else{
     getExpenses(1,localStorage.getItem('itemsPerPage'));
-    }
+  
 
   });
 
@@ -335,8 +333,10 @@ async function getExpenses(page,itemsPerPage) {
     const response = await axios.get(`http://localhost:5000/GetExpense?page=${page}&itemsPerPage=${itemsPerPage}`, { headers: { "Authorization": token } });
     const expenses = response.data.Expenses;
     const pagedata = response.data.pagedata;
-    console.log(pagedata);
-    tableDaily.innerHTML = ''
+    console.log(expenses)
+    const dataRows = Array.from(tableDaily.querySelectorAll('tr')).slice(1); // Exclude header row
+    
+    dataRows.forEach(row => row.remove());
 
     for (const expense of expenses) {
       createListItem(expense);
