@@ -21,7 +21,7 @@ async function onSubmit(e) {
 
 async function getFormData(formData) {
     try {
-        const response = await axios.get('http://localhost:5000/GetUser', { params: formData });
+        const response = await axios.get('http://13.234.20.97:5000/GetUser', { params: formData });
         const responseData = response.data;
 
         if (response.status === 200) {

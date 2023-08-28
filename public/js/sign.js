@@ -23,7 +23,7 @@ function onSubmit(e) {
   async function postFormData(formData) {
     try {
         console.log(formData);
-        const response = await axios.post('http://localhost:5000/SignUp', formData);
+        const response = await axios.post('http://13.234.20.97:5000/SignUp', formData);
         const user = response.data.User;
         console.log(user);
 
