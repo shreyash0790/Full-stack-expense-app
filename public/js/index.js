@@ -37,7 +37,7 @@ async function postFormData(formData) {
     console.log(formData);
     const token = localStorage.getItem('token');
 
-    const response = await axios.post('http://13.234.20.97:5000/AddExpense', formData, {
+    const response = await axios.post('http://43.205.214.215:5000/AddExpense', formData, {
       headers: {
         "Authorization": token
       }
@@ -131,7 +131,7 @@ async function createListItem(user) {
     try {
       const userId = user.id;
       const token = localStorage.getItem('token');
-      const response = await axios.delete(`http://13.234.20.97:5000/delete/${userId}`, {
+      const response = await axios.delete(`http://43.205.214.215:5000/delete/${userId}`, {
         headers: {
           "Authorization": token
         }
@@ -185,7 +185,7 @@ async function createListItem(user) {
     try {
 
       const token = localStorage.getItem('token');
-      const response = await axios.put(`http://13.234.20.97:5000/edit/${userId}`, updatedUser, {
+      const response = await axios.put(`http://43.205.214.215:5000/edit/${userId}`, updatedUser, {
         headers: {
           "Authorization": token
         }
@@ -282,7 +282,7 @@ async function createListItem(user) {
 async function calculateTotal(month) {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get('http://13.234.20.97:5000/GetExpense', { headers: { "Authorization": token } });
+    const response = await axios.get('http://43.205.214.215:5000/GetExpense', { headers: { "Authorization": token } });
     const expenses = response.data.Expenses;
     let totalExpense = 0;
     let totalIncome = 0;
@@ -330,7 +330,7 @@ async function getExpenses(page,itemsPerPage) {
   try {
     const token = localStorage.getItem('token');
  
-    const response = await axios.get(`http://13.234.20.97:5000/GetExpense?page=${page}&itemsPerPage=${itemsPerPage}`, { headers: { "Authorization": token } });
+    const response = await axios.get(`http://43.205.214.215:5000/GetExpense?page=${page}&itemsPerPage=${itemsPerPage}`, { headers: { "Authorization": token } });
     const expenses = response.data.Expenses;
     const pagedata = response.data.pagedata;
     console.log(expenses)
@@ -388,14 +388,14 @@ function clearFields() {
 }
 document.getElementById('razorPay').onclick = async function (e) {
   const token = localStorage.getItem('token');
-  const response = await axios.get('http://13.234.20.97:5000/Purchase/BuyPremium', { headers: { "Authorization": token } });
+  const response = await axios.get('http://43.205.214.215:5000/Purchase/BuyPremium', { headers: { "Authorization": token } });
   console.log(response);
 
   var options = {
     "key": response.data.key_id,
     "order_id": response.data.order.id,
     "handler": async function (response) {
-      await axios.post('http://13.234.20.97:5000/Purchase/UpdateTransctionStat',
+      await axios.post('http://43.205.214.215:5000/Purchase/UpdateTransctionStat',
         {
           order_id: options.order_id,
           payment_id: response.razorpay_payment_id
@@ -421,7 +421,7 @@ document.getElementById('razorPay').onclick = async function (e) {
 }
 document.addEventListener('DOMContentLoaded', async function () {
   const token = localStorage.getItem('token');
-  const response = await axios.get('http://13.234.20.97:5000/Purchase/getUsers', { headers: { "Authorization": token } });
+  const response = await axios.get('http://43.205.214.215:5000/Purchase/getUsers', { headers: { "Authorization": token } });
 
 
   const isPremiumUser = response.data.isPremiumUser;
@@ -467,7 +467,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 document.getElementById('leader-b').onclick = async function (e) {
   const token = localStorage.getItem('token');
-  const response = await axios.get('http://13.234.20.97:5000/Premium/getleader', { headers: { "Authorization": token } });
+  const response = await axios.get('http://43.205.214.215:5000/Premium/getleader', { headers: { "Authorization": token } });
 
 
 
@@ -491,7 +491,7 @@ document.getElementById('leader-b').onclick = async function (e) {
 DownloadButton.onclick= async function (e){
   e.preventDefault()
   const token = localStorage.getItem('token');
-  const response = await axios.get('http://13.234.20.97:5000/download', { headers: { "Authorization": token } });
+  const response = await axios.get('http://43.205.214.215:5000/download', { headers: { "Authorization": token } });
   console.log(response)
 if(response.status===200){
     const a = document.createElement("a");
@@ -507,7 +507,7 @@ else{
 DownloadButtonold.onclick=async function (e){
   e.preventDefault()
   const token = localStorage.getItem('token');
-  const response = await axios.get('http://13.234.20.97:5000/reports', { headers: { "Authorization": token } });
+  const response = await axios.get('http://43.205.214.215:5000/reports', { headers: { "Authorization": token } });
 console.log(response)
 const OldRep=response.data.reports
 

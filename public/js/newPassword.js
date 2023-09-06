@@ -29,14 +29,14 @@ const updateid = new URLSearchParams(window.location.search).get('id');
   async function Datafetch(Data) {
     try {
         const id=Data.updateid
-        const response = await axios.put(`http://13.234.20.97:5000/password/updatepass/${id}`, Data );
+        const response = await axios.put(`http://43.205.214.215:5000/password/updatepass/${id}`, Data );
         
   
 
         if (response.status === 201) {
           console.log(response)
           alert("Password Reset Successfully ");
-            window.location.href = 'http://13.234.20.97:5000/html/login.html'
+            window.location.href = 'http://43.205.214.215:5000/html/login.html'
         }
 
     } catch (err) {

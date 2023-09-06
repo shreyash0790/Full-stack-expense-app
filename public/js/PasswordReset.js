@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
   async function Datafetch(Data) {
     try {
      
-        const response = await axios.post('http://13.234.20.97:5000/password/forgotpassword', Data );
+        const response = await axios.post('http://43.205.214.215:5000/password/forgotpassword', Data );
         
         const responseData = response.data;
 
