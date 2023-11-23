@@ -13,14 +13,14 @@ exports.GetUser = async (req, res, next) => {
         const Email = req.query.Email;
         const Password=req.query.Password;
 
-        const existingUser = await Users.findOne({ where: { Email: Email} });
+        const existingUser = await Users.findOne( { Email: Email});
         if (existingUser) {
          bcrypt.compare(Password,existingUser.Password, (err,result)=>{
             if(err){
                 throw new Error('Something went Wrong')
             }
             if (result==true) {
-                return res.status(200).json({ User:existingUser, token:genererateAccessToken(existingUser.id) });
+                return res.status(200).json({ User:existingUser, token:genererateAccessToken(existingUser._id) });
             } else  {
                 return res.status(401).json({ error: 'password incorrect' });
             }

@@ -9,7 +9,7 @@ router.get('/Purchase/getUsers',UserAuthen.Authentication,BuyPremium.getUsers)
 
 
 
-router.post('/Purchase/UpdateTransctionStat',UserAuthen.Authentication,BuyPremium.UpdateTrans)
+router.post('/Purchase/UpdateTransctionStat',UserAuthen.Authentication,BuyPremium.updateTrans)
 
 
 

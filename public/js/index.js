@@ -129,7 +129,7 @@ async function createListItem(user) {
 
     e.preventDefault();
     try {
-      const userId = user.id;
+      const userId = user._id;
       const token = localStorage.getItem('token');
       const response = await axios.delete(`http://localhost:5000/delete/${userId}`, {
         headers: {
@@ -159,7 +159,7 @@ async function createListItem(user) {
     console.log("Category:", catInput.value);
 
 
-    const userId = user.id;
+    const userId = user._id;
     const updatedamount = amountInput.value;
     const updateddiscription = disInput.value;
     const updatedcategory = catInput.value;

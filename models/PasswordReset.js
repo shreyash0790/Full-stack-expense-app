@@ -1,16 +1,20 @@
-const Sequelize=require('sequelize');
-const sequelize=require('../util/database');
+const mongoose=require('mongoose');
+const Schema= mongoose.Schema
 
-const PasswordReset=sequelize.define('PasswordReset',{
- id:{
-    type: Sequelize.UUID,
-    primaryKey: true,
-    allowNull:false
- },
+const PasswordReset=new Schema({
 IsActive:{
-  type: Sequelize.BOOLEAN,
-  allowNull:false,
-  expiresby: Sequelize.DATE
+  type:Boolean,
+ required:true,
+ },
+ expiresAt: {
+   type: Date,
+   required: true,
+   default: Date.now, // set the default expiration time to the current time
+   index: { expires: '1h' }, // expires in 1 hour
+ },
+ userId:{
+  type:Schema.Types.ObjectId,
+  ref:'User'
  }
 })
-module.exports=PasswordReset;
+module.exports=mongoose.model('PasswordReset',PasswordReset);

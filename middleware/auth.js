@@ -11,7 +11,7 @@ const user = jwt.verify(token, process.env.USER_TOKEN); // Use process.env.token
 console.log('userId>>', user.userId)
  
   
-const users = await Users.findByPk(user.userId);
+const users = await Users.findById(user.userId);
     
 if (users) {
   req.users = users;  // its used here so that req.users can be used to get the id when we use get response when dom reloads 

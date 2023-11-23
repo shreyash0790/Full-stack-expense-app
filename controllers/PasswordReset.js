@@ -1,5 +1,4 @@
 const Brevo = require('sib-api-v3-sdk'); 
-const uuid = require('uuid');
 const Forgotpassword = require('../models/PasswordReset');
 const Users = require('../models/sign');
 const bcrypt= require('bcrypt');
@@ -9,15 +8,13 @@ exports.forgotpassword= async (req, res, next) => {
     try {
         const Email= req.body.Email; 
         console.log(Email);
-        const id = uuid.v4();
 
-        const user = await Users.findOne({where : { Email:Email }});
+        const user = await Users.findOne({ Email:Email });
         if(user){
-           await Forgotpassword.create({ id:id , IsActive: true })
-                
+           await Forgotpassword.create({ IsActive: true })
             }
 
-
+ const id = Forgotpassword._id;
 const  Client = Brevo.ApiClient.instance;
 const  apiKey = Client.authentications["api-key"];
 apiKey.apiKey = process.env.BREVO_KEY;
@@ -69,7 +66,7 @@ res.status(200).json('Email send sucesssfully');
 exports.resetPassword = async (req, res) => {
     try {
         const id = req.params.id;
-        const forgotpasswordrequest = await Forgotpassword.findOne({ where: { id: id } });
+        const forgotpasswordrequest = await Forgotpassword.findOne({ _id: id });
 
         if (forgotpasswordrequest) {
             await forgotpasswordrequest.update({ IsActive: false });
@@ -85,35 +82,38 @@ exports.resetPassword = async (req, res) => {
 
 
 
-
-
-
-
-exports.updatePassword=async (req, res, next) => {
+exports.updatePassword = async (req, res, next) => {
     try {
-        const Password= req.body.Password;
-        const id=req.params.updateid
+        const newPassword = req.body.Password;
+        const updateId = req.params.updateid;
 
-        
-        const UpdateUserPass = await Forgotpassword.findOne({
-             where: { id:id },
-             include:Users});
-        if (UpdateUserPass) {
-          
+        const updateUserPass = await ForgotPassword.findOne({
+            _id: updateId
+        }).populate('User'); // Assuming 'User' is the field that references the User model
+
+        if (!updateUserPass) {
+            return res.status(404).json({ error: 'Record not found' });
         }
-        const saltrounds=10;
-        bcrypt.hash(Password,saltrounds,async(err,hash)=>{
-          const UpdateUser=  await Users.update(
-                { Password: hash },
-                { where: { id: UpdateUserPass.UserId } }
-            );
-           console.log(err);
-           res.status(201).json({ UpdatedPass: UpdateUser});
 
-        })
-       
-      } catch (err) {
-        console.error( err);
+        const saltRounds = 10;
+
+        bcrypt.hash(newPassword, saltRounds, async (err, hash) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ error: 'Internal Server Error' });
+            }
+
+            // Update user's password
+            const updateUser = await User.findByIdAndUpdate(
+                updateUserPass.User._id,
+                { Password: hash },
+                { new: true }
+            );
+
+            res.status(201).json({ UpdatedPass: updateUser });
+        });
+    } catch (err) {
+        console.error(err);
         res.status(500).json({ error: 'Internal Server Error' });
-      }
-}
+    }
+};

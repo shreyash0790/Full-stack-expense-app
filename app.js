@@ -3,7 +3,7 @@ const fs=require('fs')
 const express = require('express')
 const cors=require('cors')
 const helmet=require('helmet')
-const sequelize=require('./util/database');
+const mongoose=require('mongoose')
 const morgan=require('morgan')
 const app = express();
 require('dotenv').config();
@@ -18,12 +18,7 @@ const PurchaseRoutes=require('./routes/purchase');
 const PremiumFeatRoutes=require('./routes/premiumFeatures');
 const PasswordRoutes=require('./routes/Password')
 
-//models import
-const Expense=require('./models/home')
-const User=require('./models/sign')
-const Orders=require('./models/Orders');
-const PasswordReset=require('./models/PasswordReset')
-const ExpenseReport=require('./models/Reports')
+
 
 const accesslogStream=fs.createWriteStream(path.join(__dirname, 'access.log'),{flags:'a'})
 
@@ -50,25 +45,14 @@ app.use(PurchaseRoutes);
 app.use(PremiumFeatRoutes);
 app.use(PasswordRoutes);
 
-//model relations
-User.hasMany(Expense);
-Expense.belongsTo(User);
 
-User.hasMany(Orders);
-Orders.belongsTo(User);
-
-User.hasMany(PasswordReset);
-PasswordReset.belongsTo(User);
-
-User.hasMany(ExpenseReport);
-ExpenseReport.belongsTo(User);
 
 
 
 //server config
 
-sequelize
-.sync()
+mongoose
+.connect('mongodb+srv://shreyash:H7Z2qpPGBq0PEX5v@test1.uhi7exl.mongodb.net/?retryWrites=true&w=majority')
 .then(result=>{
     app.listen(5000, () => {
         console.log(`Server is running on port 5000`);
@@ -77,3 +61,5 @@ sequelize
 .catch(err=>{
     console.log(err);
 })
+
+

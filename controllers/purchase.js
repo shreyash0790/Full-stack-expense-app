@@ -1,6 +1,6 @@
 const RazorPay=require('razorpay');
-const Orders=require('../models/Orders')
-const Expense = require('../models/home');
+const User = require('../models/sign');
+const Order = require('../models/Orders');
 
 require('dotenv').config();
 
@@ -17,11 +17,9 @@ exports.PremiumMember = async (req, res, next) => {
     const order = await rzp.orders.create({ amount:3500, currency: 'INR' });
 
 
-    await req.users.createOrder({ OrderId: order.id, Status: 'Pending' });
+    await Order.create({ OrderId: order.id, Status: 'Pending', userId: req.users });
 
-    // const isPremiumUser=req.users.IsPremiumUser
-    // const Username=req.users.Name
-
+   
     return res.status(201).json({ order, key_id: rzp.key_id});
 
   } catch (err) {
@@ -30,23 +28,29 @@ exports.PremiumMember = async (req, res, next) => {
   }
 }
 
-exports.UpdateTrans = async (req, res, next) => {
-    try {
-        const { payment_id, order_id } = req.body;
+exports.updateTrans = async (req, res, next) => {
+  try {
+      const { payment_id, order_id } = req.body;
 
-        const order = await Orders.findOne({ where: { OrderId: order_id } });
+      const order = await Order.findOne({ OrderId: order_id });
 
-        await Promise.all([
-            order.update({ PaymentId: payment_id, Status: 'Successful' }),
-            req.users.update({ IsPremiumUser: true})
-        ]);
+      if (!order) {
+          return res.status(404).json({ error: 'Order not found' });
+      }
 
-        return res.status(202).json({ success: true, message: 'Transaction Successful' });
+      // Update the order and the user in parallel using Promise.all
+      await Promise.all([
+          Order.updateOne({ OrderId: order_id }, { PaymentId: payment_id, Status: 'Successful' }),
+          User.updateOne({ _id: req.users._id }, { IsPremiumUser: true })
+      ]);
 
-    } catch (err) {
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-}
+      return res.status(202).json({ success: true, message: 'Transaction Successful' });
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 exports.getUsers= async (req, res, next) => {
   try {
 
